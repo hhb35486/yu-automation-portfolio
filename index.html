@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yu Automation — AI 協作自動化與內部工具建置</title>
+  <meta name="description" content="Yu Automation 提供 AI 協作自動化、資料整理、Excel/CSV 整併、PDF 文件資料擷取與內部工具建置，協助個人與中小型團隊降低重複性工作成本。">
+  <meta name="keywords" content="AI 自動化, 自動化腳本, 資料整理, Excel 整併, CSV 整併, PDF 資料擷取, 內部工具, 網頁設計, Yu Automation">
+  <meta name="author" content="Yu Automation">
+  <meta name="theme-color" content="#2563eb">
+  <meta property="og:title" content="Yu Automation — AI 協作自動化與內部工具建置">
+  <meta property="og:description" content="Yu Automation 提供 AI 協作自動化、資料整理、Excel/CSV 整併、PDF 文件資料擷取與內部工具建置，協助個人與中小型團隊降低重複性工作成本。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yu Automation">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Yu Automation — AI 協作自動化與內部工具建置">
+  <meta name="twitter:description" content="Yu Automation 提供 AI 協作自動化、資料整理、Excel/CSV 整併、PDF 文件資料擷取與內部工具建置，協助個人與中小型團隊降低重複性工作成本。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="container nav-inner">
+      <a href="#hero" class="nav-logo">Yu Automation</a>
+      <button class="nav-toggle" aria-label="開啟選單" aria-expanded="false" aria-controls="nav-menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="nav-menu" id="nav-menu" role="list">
+        <li><a href="#services">服務項目</a></li>
+        <li><a href="#portfolio">作品集</a></li>
+        <li><a href="#process">合作流程</a></li>
+        <li><a href="#contact" class="nav-cta">聯絡我</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="hero-badge">AI 協作開發</span>
+        <h1 class="hero-title">Yu Automation</h1>
+        <p class="hero-subtitle">AI 協作自動化、資料整理與內部工具建置</p>
+        <p class="hero-desc">
+          協助個人與中小型團隊，把重複性高、耗時、容易出錯的資料整理流程，
+          轉成可以重複執行的自動化腳本或簡易工具。
+        </p>
+        <div class="hero-actions">
+          <a href="#services" class="btn-primary">查看服務</a>
+          <a href="#portfolio" class="btn-secondary">查看作品</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="dashboard-card">
+          <div class="dashboard-topbar">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="metric-card metric-card--primary">
+              <span class="metric-label">Workflow</span>
+              <strong>整理中</strong>
+              <div class="metric-progress">
+                <span></span>
+              </div>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Files</span>
+              <strong>24</strong>
+              <small>CSV / PDF</small>
+            </div>
+          </div>
+
+          <div class="workflow-preview">
+            <div class="workflow-node is-active">
+              <span></span>
+              匯入
+            </div>
+            <div class="workflow-link"></div>
+            <div class="workflow-node">
+              <span></span>
+              清理
+            </div>
+            <div class="workflow-link"></div>
+            <div class="workflow-node">
+              <span></span>
+              匯出
+            </div>
+          </div>
+
+          <div class="code-panel">
+            <div class="code-line code-line--wide"></div>
+            <div class="code-line"></div>
+            <div class="code-line code-line--short"></div>
+          </div>
+
+          <div class="table-preview">
+            <div class="table-row table-head">
+              <span>欄位</span>
+              <span>狀態</span>
+              <span>輸出</span>
+            </div>
+            <div class="table-row">
+              <span>資料 A</span>
+              <span>已整理</span>
+              <span>CSV</span>
+            </div>
+            <div class="table-row">
+              <span>資料 B</span>
+              <span>待確認</span>
+              <span>XLSX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">服務項目</h2>
+        <p class="section-desc">針對中小型團隊的常見痛點，提供輕量、實用的自動化解決方案。</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+            </svg>
+          </div>
+          <h3>資料整理自動化</h3>
+          <p>將格式不一的原始資料，透過腳本自動清理、標準化，減少人工處理時間，降低錯誤率。</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M3 9h18M3 15h18M9 3v18"/>
+            </svg>
+          </div>
+          <h3>Excel / CSV 整併</h3>
+          <p>多份報表合併、欄位對齊、去重、格式轉換，讓每月整理報表不再是耗時苦差事。</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3>PDF 文件資料擷取</h3>
+          <p>從 PDF 批次擷取關鍵欄位，轉成結構化資料，省去逐頁手動複製的繁瑣工作。</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </div>
+          <h3>內部查詢工具</h3>
+          <p>為團隊建立簡易資料查詢介面，不需要工程師協助就能快速查到需要的資訊。</p>
+        </div>
+
+        <div class="service-card">
+          <div class="service-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+              <polyline points="17 1 21 5 17 9"/>
+              <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+              <polyline points="7 23 3 19 7 15"/>
+              <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+            </svg>
+          </div>
+          <h3>重複流程自動化</h3>
+          <p>把每週、每月重複執行的手動步驟，整合成一鍵執行的腳本或排程任務。</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="section section-alt" id="portfolio">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">作品集</h2>
+        <p class="section-desc">以下為示範作品，展示實際可解決的問題類型與技術方向。</p>
+      </div>
+      <div class="portfolio-grid">
+
+        <article class="portfolio-card">
+          <div class="portfolio-preview preview-sheet" aria-hidden="true">
+            <div class="preview-toolbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="preview-table-grid">
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <div class="portfolio-card-top">
+            <span class="portfolio-number">01</span>
+            <h3 class="portfolio-title">Excel / CSV 自動整理工具</h3>
+          </div>
+          <div class="portfolio-block">
+            <span class="block-label">解決問題</span>
+            <p>每月需手動合併 10 份以上報表，欄位格式各異，整理過程中容易複製錯誤，導致後續分析失準。</p>
+          </div>
+          <div class="portfolio-block portfolio-block--result">
+            <span class="block-label">成果</span>
+            <p>可減少重複複製貼上與人工整理時間，降低欄位格式錯誤，讓輸出結果更容易用於後續分析或匯入系統。</p>
+          </div>
+          <div class="portfolio-tags">
+            <span class="tag">Python</span>
+            <span class="tag">pandas</span>
+            <span class="tag">openpyxl</span>
+            <span class="tag">CLI 工具</span>
+          </div>
+        </article>
+
+        <article class="portfolio-card">
+          <div class="portfolio-preview preview-document" aria-hidden="true">
+            <div class="preview-toolbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="preview-doc-layout">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="portfolio-card-top">
+            <span class="portfolio-number">02</span>
+            <h3 class="portfolio-title">PDF 文件資料擷取工具</h3>
+          </div>
+          <div class="portfolio-block">
+            <span class="block-label">解決問題</span>
+            <p>大量 PDF 文件需逐份手動開啟、找到關鍵欄位、複製到試算表，百份文件可能耗費整整一天。</p>
+          </div>
+          <div class="portfolio-block portfolio-block--result">
+            <span class="block-label">成果</span>
+            <p>可依照文件格式批次整理多份 PDF，擷取指定欄位並輸出為 CSV，減少逐份開啟與手動複製的時間。</p>
+          </div>
+          <div class="portfolio-tags">
+            <span class="tag">Python</span>
+            <span class="tag">pdfplumber</span>
+            <span class="tag">正規表達式</span>
+            <span class="tag">批次處理</span>
+          </div>
+        </article>
+
+        <article class="portfolio-card">
+          <div class="portfolio-preview preview-search" aria-hidden="true">
+            <div class="preview-toolbar">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div class="preview-search-bar"></div>
+            <div class="preview-result-list">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="portfolio-card-top">
+            <span class="portfolio-number">03</span>
+            <h3 class="portfolio-title">內部資料查詢系統</h3>
+          </div>
+          <div class="portfolio-block">
+            <span class="block-label">解決問題</span>
+            <p>團隊內部資料分散於多個試算表，查詢需要找對版本與頁籤，常因查到舊資料而產生誤判。</p>
+          </div>
+          <div class="portfolio-block portfolio-block--result">
+            <span class="block-label">成果</span>
+            <p>建立簡易網頁查詢介面，集中整理常用資料，讓非技術成員也能快速搜尋與篩選，減少反覆查找檔案的時間。</p>
+          </div>
+          <div class="portfolio-tags">
+            <span class="tag">Python</span>
+            <span class="tag">Streamlit</span>
+            <span class="tag">pandas</span>
+            <span class="tag">輕量化部署</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Process -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">合作流程</h2>
+        <p class="section-desc">透明、可預期的合作方式，讓你清楚知道每個階段在做什麼。</p>
+      </div>
+      <div class="process-steps">
+
+        <div class="process-step">
+          <div class="step-dot">
+            <span class="step-number">01</span>
+          </div>
+          <div class="step-body">
+            <h3>需求確認</h3>
+            <p>了解你目前的作業流程、遇到的問題點，以及期望的產出格式，確認範圍與目標。</p>
+          </div>
+        </div>
+
+        <div class="process-line"></div>
+
+        <div class="process-step">
+          <div class="step-dot">
+            <span class="step-number">02</span>
+          </div>
+          <div class="step-body">
+            <h3>資料檢查</h3>
+            <p>檢視範例資料或文件，確認格式規律與特殊情境，評估可行性與工時。</p>
+          </div>
+        </div>
+
+        <div class="process-line"></div>
+
+        <div class="process-step">
+          <div class="step-dot">
+            <span class="step-number">03</span>
+          </div>
+          <div class="step-body">
+            <h3>建立工具</h3>
+            <p>開發腳本或工具，善用 AI 輔助提升效率，每個邏輯都經過人工確認與測試。</p>
+          </div>
+        </div>
+
+        <div class="process-line"></div>
+
+        <div class="process-step">
+          <div class="step-dot">
+            <span class="step-number">04</span>
+          </div>
+          <div class="step-body">
+            <h3>測試與交付</h3>
+            <p>用實際資料進行測試，確認輸出正確，提供操作說明，支援初期使用問題。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="section section-alt" id="contact">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">聯絡我</h2>
+        <p class="section-desc">有自動化需求或想了解更多？歡迎透過以下方式聯繫。</p>
+      </div>
+      <div class="contact-box">
+        <p class="contact-note">
+          目前可透過接案平台私訊聯繫，說明你的需求與目前使用的資料格式，
+          我會在 1–2 個工作天內回覆。
+        </p>
+        <div class="contact-checklist">
+          <h4>聯繫時建議附上：</h4>
+          <ul>
+            <li>目前的作業流程大致說明</li>
+            <li>資料來源格式（Excel、CSV、PDF 等）</li>
+            <li>期望的輸出結果或使用方式</li>
+            <li>預計的資料量或執行頻率</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">Yu Automation</span>
+      <span class="footer-tagline">AI 協作自動化 · 資料整理 · 內部工具建置</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

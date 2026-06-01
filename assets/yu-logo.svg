@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Yu Automation Logo</title>
+  <desc id="desc">A clean blue Y mark with subtle workflow nodes.</desc>
+  <defs>
+    <linearGradient id="yu-bg" x1="96" y1="64" x2="416" y2="448" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="0.58" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="yu-flow" x1="160" y1="128" x2="352" y2="384" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cffafe"/>
+    </linearGradient>
+    <filter id="yu-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#0f172a" flood-opacity="0.22"/>
+    </filter>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#yu-bg)"/>
+  <g opacity="0.2" fill="none" stroke="#ffffff" stroke-width="2">
+    <path d="M96 160h86"/>
+    <path d="M330 160h86"/>
+    <path d="M96 352h86"/>
+    <path d="M330 352h86"/>
+  </g>
+  <g filter="url(#yu-shadow)">
+    <path d="M158 144l98 108 98-108" fill="none" stroke="url(#yu-flow)" stroke-width="46" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M256 252v118" fill="none" stroke="url(#yu-flow)" stroke-width="46" stroke-linecap="round"/>
+  </g>
+  <g fill="#67e8f9" stroke="#ffffff" stroke-width="10">
+    <circle cx="158" cy="144" r="18"/>
+    <circle cx="354" cy="144" r="18"/>
+    <circle cx="256" cy="252" r="20"/>
+    <circle cx="256" cy="370" r="18"/>
+  </g>
+</svg>
