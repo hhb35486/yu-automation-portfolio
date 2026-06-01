@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>內部資料查詢系統 Demo｜Yu Automation</title>
+  <meta name="description" content="內部資料查詢系統 Demo，展示如何將分散資料整理成可搜尋、可篩選、可快速查看的內部查詢工具。">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="demo-page">
+  <header class="demo-header">
+    <div class="container demo-header-inner">
+      <a href="../index.html#portfolio" class="demo-back">&larr; 返回首頁</a>
+      <span class="hero-badge">Portfolio Demo</span>
+      <h1 class="demo-title">內部資料查詢系統 Demo</h1>
+      <p class="demo-lede">
+        展示如何把分散在試算表或文件中的資料，整理成可搜尋、可篩選、可快速查看的內部查詢工具。
+      </p>
+    </div>
+  </header>
+
+  <main class="demo-main" data-demo="internal-search">
+    <section class="container demo-tool" aria-labelledby="demo-tool-title">
+      <div class="demo-tool-header">
+        <div>
+          <h2 id="demo-tool-title">方案知識庫</h2>
+          <p>以下內容皆為示範用假資料，可用來模擬內部資料查詢、分類篩選與快速瀏覽。</p>
+        </div>
+        <div class="demo-count" aria-live="polite">
+          <strong id="demo-result-count">0</strong>
+          <span>筆結果</span>
+        </div>
+      </div>
+
+      <div class="demo-controls">
+        <label class="demo-search-field" for="demo-search">
+          <span>搜尋</span>
+          <input id="demo-search" type="search" placeholder="搜尋名稱、說明或標籤">
+        </label>
+
+        <div class="demo-filter-block" aria-label="類別篩選">
+          <span class="demo-filter-label">類別</span>
+          <div class="demo-segments">
+            <button type="button" class="is-active" data-demo-category="全部">全部</button>
+            <button type="button" data-demo-category="資料整理">資料整理</button>
+            <button type="button" data-demo-category="文件擷取">文件擷取</button>
+            <button type="button" data-demo-category="內部工具">內部工具</button>
+            <button type="button" data-demo-category="流程自動化">流程自動化</button>
+          </div>
+        </div>
+
+        <label class="demo-select-field" for="demo-difficulty">
+          <span>難度</span>
+          <select id="demo-difficulty">
+            <option value="全部">全部</option>
+            <option value="簡單">簡單</option>
+            <option value="中等">中等</option>
+            <option value="進階">進階</option>
+          </select>
+        </label>
+
+        <button type="button" class="demo-clear" id="demo-clear">清除篩選</button>
+      </div>
+
+      <div class="demo-results" id="demo-results" aria-live="polite"></div>
+      <p class="demo-empty" id="demo-empty" hidden>找不到符合條件的資料，請調整搜尋或篩選條件。</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">Yu Automation</span>
+      <span class="footer-tagline">AI 協作自動化 · 資料整理 · 內部工具建置</span>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>
