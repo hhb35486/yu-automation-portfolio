@@ -342,3 +342,31 @@ if (excelCsvCleanerDemo) {
     });
   });
 }
+
+// PDF extractor demo
+const pdfExtractorDemo = document.querySelector('[data-demo="pdf-extractor"]');
+
+if (pdfExtractorDemo) {
+  const pdfButtons = document.querySelectorAll('[data-pdf-view]');
+  const pdfPanels = document.querySelectorAll('[data-pdf-panel]');
+
+  const setPdfView = (viewName) => {
+    pdfButtons.forEach(button => {
+      const isActive = button.dataset.pdfView === viewName;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', String(isActive));
+    });
+
+    pdfPanels.forEach(panel => {
+      const isActive = panel.dataset.pdfPanel === viewName;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+  };
+
+  pdfButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      setPdfView(button.dataset.pdfView || 'preview');
+    });
+  });
+}

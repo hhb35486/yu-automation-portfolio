@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF 文件資料擷取工具 Demo｜Yu Automation</title>
+  <meta name="description" content="PDF 文件資料擷取工具 Demo，展示從 PDF 文件中擷取欄位、整理表格與輸出資料的流程。">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="demo-page">
+  <header class="demo-header">
+    <div class="container demo-header-inner">
+      <a href="../index.html#portfolio" class="demo-back">&larr; 返回首頁</a>
+      <span class="hero-badge">Portfolio Demo</span>
+      <h1 class="demo-title">PDF 文件資料擷取工具 Demo</h1>
+      <p class="demo-lede">
+        展示從 PDF 文件中擷取欄位、整理表格與輸出資料的流程，將固定或半固定格式文件轉成可檢查的結構化資料。
+      </p>
+    </div>
+  </header>
+
+  <main class="demo-main" data-demo="pdf-extractor">
+    <section class="container pdf-showcase" aria-labelledby="pdf-demo-title">
+      <div class="demo-tool-header">
+        <div>
+          <h2 id="pdf-demo-title">文件預覽與欄位擷取</h2>
+          <p>以下內容皆為展示用假資料，用來模擬欄位擷取、人工確認與批次整理流程。</p>
+        </div>
+        <div class="demo-count">
+          <strong>24</strong>
+          <span>擷取欄位</span>
+        </div>
+      </div>
+
+      <div class="pdf-tabs" role="tablist" aria-label="PDF 擷取展示切換">
+        <button type="button" class="is-active" role="tab" aria-selected="true" aria-controls="pdf-preview" data-pdf-view="preview">文件預覽</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pdf-fields" data-pdf-view="fields">擷取欄位</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="pdf-batch" data-pdf-view="batch">批次結果</button>
+      </div>
+
+      <div class="pdf-panel is-active" id="pdf-preview" role="tabpanel" data-pdf-panel="preview">
+        <div class="pdf-preview-layout">
+          <article class="fake-pdf" aria-label="假 PDF 文件預覽">
+            <div class="fake-pdf-top">
+              <span>PDF Preview</span>
+              <strong>DOC-2026-001</strong>
+            </div>
+            <div class="fake-pdf-body">
+              <h3>流程需求申請單</h3>
+              <dl>
+                <div>
+                  <dt>文件編號</dt>
+                  <dd>DOC-2026-001</dd>
+                </div>
+                <div>
+                  <dt>日期</dt>
+                  <dd>2026/06/01</dd>
+                </div>
+                <div>
+                  <dt>申請人代號</dt>
+                  <dd>USER-A018</dd>
+                </div>
+                <div>
+                  <dt>項目</dt>
+                  <dd>流程自動化需求</dd>
+                </div>
+                <div>
+                  <dt>金額</dt>
+                  <dd>NT$ 12,800</dd>
+                </div>
+                <div>
+                  <dt>狀態</dt>
+                  <dd>待確認</dd>
+                </div>
+              </dl>
+              <p>備註：需人工確認欄位格式。</p>
+            </div>
+          </article>
+
+          <article class="pdf-result-card">
+            <div class="cleaner-panel-head">
+              <span class="block-label">Extracted</span>
+              <h3>擷取結果表格</h3>
+              <p>將文件中的指定欄位轉成可檢查的結構化資料。</p>
+            </div>
+            <div class="cleaner-table-wrap" tabindex="0">
+              <table class="cleaner-table pdf-table">
+                <thead>
+                  <tr>
+                    <th>欄位名稱</th>
+                    <th>擷取值</th>
+                    <th>信心狀態</th>
+                    <th>是否需人工確認</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>文件編號</td>
+                    <td>DOC-2026-001</td>
+                    <td><span class="status-chip status-chip--ok">高</span></td>
+                    <td>否</td>
+                  </tr>
+                  <tr>
+                    <td>日期</td>
+                    <td>2026/06/01</td>
+                    <td><span class="status-chip status-chip--ok">高</span></td>
+                    <td>否</td>
+                  </tr>
+                  <tr>
+                    <td>金額</td>
+                    <td>NT$ 12,800</td>
+                    <td><span class="status-chip status-chip--check">中</span></td>
+                    <td>是</td>
+                  </tr>
+                  <tr>
+                    <td>備註</td>
+                    <td>需人工確認欄位格式</td>
+                    <td><span class="status-chip status-chip--check">中</span></td>
+                    <td>是</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <div class="pdf-panel" id="pdf-fields" role="tabpanel" data-pdf-panel="fields" hidden>
+        <div class="cleaner-panel-head">
+          <span class="block-label">Fields</span>
+          <h3>擷取欄位</h3>
+          <p>將文件中的欄位名稱、擷取值、信心狀態與人工確認需求集中檢查。</p>
+        </div>
+        <div class="cleaner-table-wrap" tabindex="0">
+          <table class="cleaner-table">
+            <thead>
+              <tr>
+                <th>欄位名稱</th>
+                <th>擷取值</th>
+                <th>信心狀態</th>
+                <th>是否需人工確認</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>申請人代號</td>
+                <td>USER-A018</td>
+                <td><span class="status-chip status-chip--ok">高</span></td>
+                <td>否</td>
+              </tr>
+              <tr>
+                <td>項目</td>
+                <td>流程自動化需求</td>
+                <td><span class="status-chip status-chip--ok">高</span></td>
+                <td>否</td>
+              </tr>
+              <tr>
+                <td>狀態</td>
+                <td>待確認</td>
+                <td><span class="status-chip status-chip--check">中</span></td>
+                <td>是</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pdf-panel" id="pdf-batch" role="tabpanel" data-pdf-panel="batch" hidden>
+        <div class="cleaner-panel-head">
+          <span class="block-label">Batch</span>
+          <h3>批次處理結果</h3>
+          <p>使用假資料展示多份文件整理後的批次檢查表。</p>
+        </div>
+        <div class="cleaner-table-wrap" tabindex="0">
+          <table class="cleaner-table">
+            <thead>
+              <tr>
+                <th>文件編號</th>
+                <th>日期</th>
+                <th>項目</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>檢查結果</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>DOC-2026-001</td>
+                <td>2026/06/01</td>
+                <td>流程自動化需求</td>
+                <td>12800</td>
+                <td>待確認</td>
+                <td><span class="status-chip status-chip--check">需確認</span></td>
+              </tr>
+              <tr>
+                <td>DOC-2026-002</td>
+                <td>2026/06/02</td>
+                <td>資料整理需求</td>
+                <td>9600</td>
+                <td>可輸出</td>
+                <td><span class="status-chip status-chip--ok">通過</span></td>
+              </tr>
+              <tr>
+                <td>DOC-2026-003</td>
+                <td>2026/06/03</td>
+                <td>文件欄位擷取</td>
+                <td>14200</td>
+                <td>可輸出</td>
+                <td><span class="status-chip status-chip--ok">通過</span></td>
+              </tr>
+              <tr>
+                <td>DOC-2026-004</td>
+                <td>2026/06/04</td>
+                <td>報表整併需求</td>
+                <td>11800</td>
+                <td>待確認</td>
+                <td><span class="status-chip status-chip--check">需確認</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="pdf-summary-grid" aria-label="PDF 擷取摘要">
+        <div class="summary-card">
+          <span>文件數量</span>
+          <strong>4</strong>
+        </div>
+        <div class="summary-card">
+          <span>擷取欄位</span>
+          <strong>24</strong>
+        </div>
+        <div class="summary-card">
+          <span>需人工確認</span>
+          <strong>3</strong>
+        </div>
+        <div class="summary-card">
+          <span>可直接輸出</span>
+          <strong>21</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="container cleaner-flow" aria-labelledby="pdf-flow-title">
+      <div class="section-header">
+        <h2 class="section-title" id="pdf-flow-title">處理流程</h2>
+        <p class="section-desc">從文件讀取到表格輸出，保留人工確認節點，讓資料更容易被檢查。</p>
+      </div>
+      <div class="cleaner-flow-grid">
+        <article class="cleaner-flow-step">
+          <span>01</span>
+          <h3>讀取文件</h3>
+          <p>讀取固定或半固定格式的文件，準備擷取指定欄位。</p>
+        </article>
+        <article class="cleaner-flow-step">
+          <span>02</span>
+          <h3>擷取欄位</h3>
+          <p>依欄位規則擷取文件編號、日期、項目、金額與狀態。</p>
+        </article>
+        <article class="cleaner-flow-step">
+          <span>03</span>
+          <h3>檢查格式</h3>
+          <p>標記信心較低或格式需要確認的欄位，避免直接輸出錯誤資料。</p>
+        </article>
+        <article class="cleaner-flow-step">
+          <span>04</span>
+          <h3>輸出表格</h3>
+          <p>將批次整理結果輸出為可檢查、可匯入或可後續分析的資料表。</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">Yu Automation</span>
+      <span class="footer-tagline">AI 協作自動化 · 資料整理 · 內部工具建置</span>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>
