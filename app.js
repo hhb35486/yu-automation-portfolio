@@ -314,3 +314,31 @@ if (internalSearchDemo) {
 
   renderDemoItems(demoItems);
 }
+
+// Excel / CSV cleaner demo
+const excelCsvCleanerDemo = document.querySelector('[data-demo="excel-csv-cleaner"]');
+
+if (excelCsvCleanerDemo) {
+  const cleanerButtons = document.querySelectorAll('[data-cleaner-view]');
+  const cleanerPanels = document.querySelectorAll('[data-cleaner-panel]');
+
+  const setCleanerView = (viewName) => {
+    cleanerButtons.forEach(button => {
+      const isActive = button.dataset.cleanerView === viewName;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-selected', String(isActive));
+    });
+
+    cleanerPanels.forEach(panel => {
+      const isActive = panel.dataset.cleanerPanel === viewName;
+      panel.classList.toggle('is-active', isActive);
+      panel.hidden = !isActive;
+    });
+  };
+
+  cleanerButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      setCleanerView(button.dataset.cleanerView || 'before');
+    });
+  });
+}
