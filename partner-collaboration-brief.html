@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yu Automation｜白牌自動化交付合作說明書 V1.2</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Yu Automation 白牌自動化交付合作說明書，提供合作夥伴了解 LINE 預約、提醒、回訪、表單與後台流程的合作範圍、分工、費用區間與交付流程。">
+  <meta property="og:title" content="Yu Automation｜白牌自動化交付合作說明書 V1.2">
+  <meta property="og:description" content="提供合作夥伴了解白牌自動化交付範圍、分工、流程、費用區間與合作前檢查清單。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yu Automation">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Yu Automation｜白牌自動化交付合作說明書 V1.2">
+  <meta name="twitter:description" content="提供合作夥伴了解白牌自動化交付範圍、分工、流程、費用區間與合作前檢查清單。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .brief-page {
+      background: var(--bg-alt);
+    }
+
+    .brief-page .demo-header-inner {
+      max-width: 880px;
+    }
+
+    .brief-shell {
+      max-width: 980px;
+      margin: 0 auto;
+      display: grid;
+      gap: 26px;
+    }
+
+    .brief-card {
+      min-width: 0;
+      padding: 34px;
+      border: 1px solid rgba(213, 222, 234, 0.95);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+      overflow-wrap: anywhere;
+    }
+
+    .brief-page .demo-title,
+    .brief-page .demo-lede,
+    .brief-card h2,
+    .brief-card h3,
+    .brief-card p,
+    .brief-list li,
+    .brief-table th,
+    .brief-table td {
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .brief-card h2 {
+      margin-bottom: 14px;
+      font-size: 1.55rem;
+      line-height: 1.3;
+    }
+
+    .brief-card h3 {
+      margin: 22px 0 10px;
+      font-size: 1.05rem;
+    }
+
+    .brief-card p {
+      color: var(--text-secondary);
+      line-height: 1.85;
+    }
+
+    .brief-lead {
+      font-size: 1.08rem;
+      color: var(--text);
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .brief-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+      padding-left: 0;
+    }
+
+    .brief-list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .brief-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .brief-steps {
+      display: grid;
+      gap: 12px;
+      counter-reset: brief-step;
+    }
+
+    .brief-step {
+      counter-increment: brief-step;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: linear-gradient(180deg, #ffffff, #f8fbff);
+    }
+
+    .brief-step::before {
+      content: counter(brief-step, decimal-leading-zero);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      color: white;
+      background: linear-gradient(135deg, var(--accent), var(--accent-cyan));
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .brief-table-wrap {
+      overflow-x: auto;
+      margin-top: 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: white;
+    }
+
+    .brief-table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+
+    .brief-table th,
+    .brief-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .brief-table th {
+      color: var(--text);
+      background: #f8fbff;
+      font-weight: 700;
+    }
+
+    .brief-table td {
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+
+    .brief-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .brief-note {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    .brief-script {
+      margin-top: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #f8fafc;
+    }
+
+    .brief-script strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .brief-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    @media (max-width: 760px) {
+      .brief-card {
+        padding: 26px 22px;
+      }
+
+      .brief-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .brief-page .demo-title {
+        font-size: 1.45rem;
+        line-height: 1.28;
+      }
+
+      .brief-card h2 {
+        font-size: 1.35rem;
+      }
+
+      .brief-page .demo-title,
+      .brief-page .demo-lede,
+      .brief-card h2,
+      .brief-card h3,
+      .brief-card p,
+      .brief-list li,
+      .brief-note {
+        word-break: break-all;
+      }
+
+      .brief-actions {
+        flex-direction: column;
+      }
+
+      .brief-actions .btn-primary,
+      .brief-actions .btn-secondary {
+        width: 100%;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 14mm;
+      }
+
+      body,
+      .brief-page {
+        background: #fff !important;
+      }
+
+      .demo-header,
+      .demo-main,
+      .section {
+        padding: 0 !important;
+      }
+
+      .demo-header {
+        border-bottom: 1px solid #d1d5db;
+        background: #fff !important;
+      }
+
+      .demo-back,
+      .hero-actions,
+      .brief-actions,
+      .footer {
+        display: none !important;
+      }
+
+      .container {
+        max-width: none;
+        padding: 0;
+      }
+
+      .brief-shell {
+        display: block;
+      }
+
+      .brief-card {
+        page-break-inside: avoid;
+        box-shadow: none;
+        border-color: #d1d5db;
+        margin: 0 0 12mm;
+        padding: 8mm;
+      }
+
+      .brief-table-wrap {
+        overflow: visible;
+      }
+
+      .brief-table {
+        min-width: 0;
+        font-size: 0.78rem;
+      }
+    }
+  </style>
+</head>
+<body class="demo-page brief-page">
+  <header class="demo-header">
+    <div class="container demo-header-inner">
+      <a href="partner-automation.html" class="demo-back">&larr; 返回合作頁</a>
+      <span class="hero-badge">Partner Brief V1.2</span>
+      <h1 class="demo-title">白牌自動化交付合作說明書 V1.2</h1>
+      <p class="demo-lede">
+        給合作夥伴使用的內部說明書，用來了解 Yu Automation 如何在背後協助交付 LINE 預約、提醒、回訪、表單與後台流程。
+      </p>
+      <div class="hero-actions">
+        <a href="partner-automation.html" class="btn-primary">查看合作頁</a>
+        <a href="index.html#contact" class="btn-secondary">聯絡 Yu Automation</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="demo-main">
+    <div class="container">
+      <div class="brief-shell">
+        <section class="brief-card" aria-labelledby="position-title">
+          <h2 id="position-title">一句話定位</h2>
+          <p class="brief-lead">
+            幫你的商家客戶多賣一項 LINE 自動化服務，你維持客戶關係與報價，Yu Automation 在背後完成白牌交付。
+          </p>
+          <p class="brief-note">
+            這份文件不是給終端商家的銷售頁，也不是公開價格表。所有費用與交付範圍都會依案件複雜度、資料欄位、流程節點與維護需求調整。
+          </p>
+        </section>
+
+        <section class="brief-card" aria-labelledby="partner-fit-title">
+          <h2 id="partner-fit-title">適合合作夥伴</h2>
+          <div class="brief-grid">
+            <ul class="brief-list">
+              <li>網站設計師</li>
+              <li>社群經營工作室</li>
+              <li>LINE OA 顧問</li>
+              <li>行銷公司</li>
+            </ul>
+            <ul class="brief-list">
+              <li>品牌顧問</li>
+              <li>美業講師或顧問</li>
+              <li>POS / CRM 顧問</li>
+              <li>有案源但缺交付產能的自動化接案者</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="brief-card" aria-labelledby="packaging-title">
+          <h2 id="packaging-title">合作夥伴可以對外包裝的服務名稱</h2>
+          <ul class="brief-list">
+            <li>LINE 預約自動化系統</li>
+            <li>LINE 客戶回訪系統</li>
+            <li>LINE 表單與後台管理系統</li>
+            <li>小型商家自動提醒系統</li>
+            <li>工作室客戶追蹤與提醒工具</li>
+          </ul>
+        </section>
+
+        <section class="brief-card" aria-labelledby="standard-package-title">
+          <h2 id="standard-package-title">標準交付包 V1</h2>
+          <p>標準交付包適合流程清楚、欄位規模不大、以表單、試算表後台與提醒流程為主的小型商家服務。</p>
+          <p class="brief-note">標準交付包 V1 是輕量自動化交付，不等於完整 SaaS、CRM、App 或大型客製系統。若涉及官方 API、進階串接、多角色權限、複雜資料權限或大量例外流程，需另外評估。</p>
+          <div class="brief-grid">
+            <ul class="brief-list">
+              <li>流程梳理</li>
+              <li>客戶需求表單</li>
+              <li>預約 / 報名 / 詢問表單</li>
+              <li>Google Sheet 或 Airtable 後台</li>
+              <li>通知與提醒流程</li>
+            </ul>
+            <ul class="brief-list">
+              <li>服務後回訪流程</li>
+              <li>FAQ 結構整理</li>
+              <li>測試資料驗收</li>
+              <li>操作說明</li>
+              <li>上線後小幅維護</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="brief-card" aria-labelledby="roles-title">
+          <h2 id="roles-title">合作分工</h2>
+          <div class="brief-grid">
+            <div>
+              <h3>合作夥伴負責</h3>
+              <ul class="brief-list">
+                <li>客戶開發與溝通</li>
+                <li>對外報價與收款</li>
+                <li>需求確認</li>
+                <li>客戶資料收集</li>
+                <li>最終交付確認</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Yu Automation 負責</h3>
+              <ul class="brief-list">
+                <li>流程規劃</li>
+                <li>自動化建置</li>
+                <li>表單與後台設計</li>
+                <li>測試</li>
+                <li>文件整理</li>
+                <li>技術維護</li>
+                <li>白牌交付素材</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="brief-card" aria-labelledby="process-title">
+          <h2 id="process-title">合作流程</h2>
+          <div class="brief-steps">
+            <div class="brief-step"><p>初步確認需求</p></div>
+            <div class="brief-step"><p>判斷是否符合標準包</p></div>
+            <div class="brief-step"><p>客戶填寫 onboarding 表</p></div>
+            <div class="brief-step"><p>合作夥伴確認報價與收款</p></div>
+            <div class="brief-step"><p>Yu Automation 進行白牌建置</p></div>
+            <div class="brief-step"><p>測試與修正</p></div>
+            <div class="brief-step"><p>交付給合作夥伴</p></div>
+            <div class="brief-step"><p>後續維護</p></div>
+          </div>
+        </section>
+
+        <section class="brief-card" aria-labelledby="limits-title">
+          <h2 id="limits-title">不承接範圍</h2>
+          <p>以下範圍不列入白牌自動化標準交付包，主要原因是風險、複雜度、維護責任或驗收邊界不適合用輕量交付方式處理。</p>
+          <ul class="brief-list">
+            <li>高敏感個資或高合規要求系統</li>
+            <li>金流串接</li>
+            <li>POS 深度串接</li>
+            <li>大型 CRM 客製開發</li>
+            <li>會員點數系統</li>
+            <li>客製 App</li>
+            <li>多分店複雜排班</li>
+            <li>未確認需求就先承諾給客戶的功能</li>
+            <li>無限修改型專案</li>
+            <li>範圍無法驗收的需求</li>
+          </ul>
+        </section>
+
+        <section class="brief-card" aria-labelledby="pricing-title">
+          <h2 id="pricing-title">建議對外售價與白牌交付費區間</h2>
+          <p>
+            以下為合作夥伴內部評估用建議區間，可依案件複雜度、客戶預算、交付時程與維護責任調整。
+            這不是公開固定價格，也不代表任何成交、利潤或收入保證。
+          </p>
+          <p class="brief-note">不建議合作夥伴在 Yu Automation 評估前，先對終端客戶承諾價格、功能或上線時程。</p>
+          <div class="brief-table-wrap">
+            <table class="brief-table">
+              <thead>
+                <tr>
+                  <th>方案</th>
+                  <th>合作夥伴對外建議售價</th>
+                  <th>Yu Automation 白牌交付費</th>
+                  <th>合作夥伴對外月維護建議</th>
+                  <th>Yu Automation 後端月維護費</th>
+                  <th>適合情境</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>快速版</td>
+                  <td>NT$ 28,000 - 48,000</td>
+                  <td>NT$ 15,000 - 25,000</td>
+                  <td>NT$ 5,800 - 9,800</td>
+                  <td>NT$ 3,000 - 5,000</td>
+                  <td>單一表單、簡單通知、欄位少、流程固定</td>
+                </tr>
+                <tr>
+                  <td>標準版</td>
+                  <td>NT$ 58,000 - 98,000</td>
+                  <td>NT$ 30,000 - 55,000</td>
+                  <td>NT$ 9,800 - 18,800</td>
+                  <td>NT$ 5,800 - 8,800</td>
+                  <td>預約、提醒、回訪、後台流程完整</td>
+                </tr>
+                <tr>
+                  <td>進階版</td>
+                  <td>NT$ 120,000 起</td>
+                  <td>NT$ 70,000 起</td>
+                  <td>NT$ 18,800 起</td>
+                  <td>NT$ 10,000 起</td>
+                  <td>多流程、多角色確認、維護需求較高</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>額外修改費計價方式</h3>
+          <ul class="brief-list">
+            <li>小幅文字、欄位或通知內容調整：可依月維護額度處理。</li>
+            <li>新增欄位、調整提醒節點、修改後台檢視方式：可按項目估價。</li>
+            <li>新增一組完整流程、重做既有流程、改變原本驗收範圍：需重新評估工時。</li>
+            <li>急件、跨範圍修改或反覆變更方向：建議另列修改費或重新報價。</li>
+          </ul>
+        </section>
+
+        <section class="brief-card" aria-labelledby="maintenance-title">
+          <h2 id="maintenance-title">月維護範圍</h2>
+          <p class="brief-lead">月維護不等於無限修改。月維護主要用來維持既有流程穩定、處理小幅調整與文件更新。</p>
+          <div class="brief-grid">
+            <div>
+              <h3>月維護可包含</h3>
+              <ul class="brief-list">
+                <li>既有流程異常檢查</li>
+                <li>小幅文字調整</li>
+                <li>小幅欄位調整</li>
+                <li>小幅提醒內容調整</li>
+                <li>每月固定額度內的輕量修改</li>
+                <li>既有文件的小幅更新</li>
+              </ul>
+            </div>
+            <div>
+              <h3>月維護不包含</h3>
+              <ul class="brief-list">
+                <li>新增完整流程</li>
+                <li>重做既有流程</li>
+                <li>新增大型功能</li>
+                <li>新增串接</li>
+                <li>改變原本驗收範圍</li>
+                <li>客戶臨時改方向造成的重工</li>
+                <li>合作夥伴未確認就先承諾的需求</li>
+              </ul>
+            </div>
+          </div>
+          <p class="brief-note">每月可修改額度、回應時間與支援方式，會依方案另行確認。</p>
+
+          <h3>月維護額度建議</h3>
+          <p>月維護額度會依方案另行確認，以下為建議基準：</p>
+          <div class="brief-grid">
+            <div>
+              <h3>快速版</h3>
+              <ul class="brief-list">
+                <li>每月 1 次批次小幅調整</li>
+                <li>或合計約 30 分鐘內的輕量維護</li>
+                <li>適合文字、欄位、提醒內容的小幅調整</li>
+              </ul>
+            </div>
+            <div>
+              <h3>標準版</h3>
+              <ul class="brief-list">
+                <li>每月 1 次批次小幅調整</li>
+                <li>或合計約 1 小時內的輕量維護</li>
+                <li>適合既有流程的小幅修正、欄位調整與文件更新</li>
+              </ul>
+            </div>
+            <div>
+              <h3>進階版</h3>
+              <ul class="brief-list">
+                <li>每月 2 次批次小幅調整</li>
+                <li>或合計約 2 小時內的輕量維護</li>
+                <li>適合多流程專案的既有流程檢查與小幅優化</li>
+              </ul>
+            </div>
+          </div>
+          <p class="brief-note">未使用的月維護額度不累積到下個月。超出月維護額度的需求需另行估價。急件、臨時插單、非約定支援時間內的處理，需另行確認費用與時程。</p>
+
+          <h3>維護與新增需求的分界</h3>
+          <div class="brief-grid">
+            <div>
+              <h3>屬於月維護的情況</h3>
+              <ul class="brief-list">
+                <li>已驗收流程出現異常，需協助檢查</li>
+                <li>既有文字、欄位、提醒內容的小幅調整</li>
+                <li>既有操作文件的小幅更新</li>
+                <li>不改變原本驗收範圍的小幅優化</li>
+              </ul>
+            </div>
+            <div>
+              <h3>不屬於月維護的情況</h3>
+              <ul class="brief-list">
+                <li>新增完整流程</li>
+                <li>新增角色或權限設計</li>
+                <li>新增第三方工具串接</li>
+                <li>重做已驗收流程</li>
+                <li>客戶改變原本需求方向</li>
+                <li>合作夥伴未經確認先承諾給客戶的功能</li>
+                <li>第三方平台政策、介面、費率或服務異常造成的大幅調整</li>
+              </ul>
+            </div>
+          </div>
+
+          <h3>回應時間說明</h3>
+          <p class="brief-note">月維護不是即時客服。一般維護需求會依約定支援方式排程處理，初步回應時間與完成時間依方案與需求複雜度另行確認。</p>
+        </section>
+
+        <section class="brief-card" aria-labelledby="third-party-title">
+          <h2 id="third-party-title">第三方工具費用</h2>
+          <p>LINE 官方帳號、Google Workspace、Airtable、Make、n8n、簡訊、Email 發送、雲端空間或其他第三方工具費用，除非另有約定，皆不包含在 Yu Automation 白牌交付費內。</p>
+          <p class="brief-note">若第三方工具因政策、限制、額度、費率或服務狀態變更，導致原流程需要調整，可能需另行評估修改費與替代方案。</p>
+        </section>
+
+        <section class="brief-card" aria-labelledby="accounts-title">
+          <h2 id="accounts-title">帳號歸屬</h2>
+          <p>原則上，LINE 官方帳號、Google Sheet、Airtable、表單與第三方工具帳號，應由合作夥伴或終端客戶持有與管理。Yu Automation 僅在建置與維護所需範圍內取得必要權限。</p>
+        </section>
+
+        <section class="brief-card" aria-labelledby="data-title">
+          <h2 id="data-title">資料責任</h2>
+          <p>終端客戶資料的蒐集、告知、同意、保存與使用責任，原則上由合作夥伴與終端客戶自行負責。Yu Automation 建置時優先使用測試資料或去識別化資料，不主動要求提供完整客戶名單。</p>
+        </section>
+
+        <section class="brief-card" aria-labelledby="checklist-title">
+          <h2 id="checklist-title">合作前檢查清單</h2>
+          <ul class="brief-list">
+            <li>客戶行業</li>
+            <li>客戶目標</li>
+            <li>是否已有 LINE 官方帳號</li>
+            <li>是否需要預約 / 報名 / 回訪</li>
+            <li>需要收集哪些欄位</li>
+            <li>是否涉及高敏感資料</li>
+            <li>是否有金流 / POS / 會員點數需求</li>
+            <li>預期上線時間</li>
+            <li>是否接受標準包範圍</li>
+            <li>未經 Yu Automation 評估前，不建議先向終端客戶承諾功能、價格或上線時程</li>
+            <li>第三方工具費用由誰負擔</li>
+            <li>LINE 官方帳號與後台帳號由誰持有</li>
+            <li>是否能提供測試資料或去識別化資料</li>
+            <li>驗收標準由誰確認</li>
+          </ul>
+        </section>
+
+        <section class="brief-card" aria-labelledby="scripts-title">
+          <h2 id="scripts-title">可直接複製的對外介紹話術</h2>
+          <div class="brief-script">
+            <strong>簡短版</strong>
+            <p>我們可以幫你把 LINE 的預約、提醒、回訪和表單整理成一套比較好管理的流程。客戶不用一直靠人工記錄，也能把資料集中到後台查看。</p>
+          </div>
+          <div class="brief-script">
+            <strong>提案版</strong>
+            <p>如果你現在的預約、報名或回訪流程主要靠訊息來回確認，我們可以協助整理成一套 LINE 自動化流程。前端讓客戶填表或回覆指定資訊，後台則用試算表或 Airtable 集中管理，並依流程發出提醒或回訪訊息。這類系統適合先從標準流程開始，後續再依使用情況逐步調整。</p>
+          </div>
+          <div class="brief-script">
+            <strong>說明範圍版</strong>
+            <p>這個方案比較適合固定流程的商家服務，例如預約、報名、提醒、回訪、簡單後台管理。若需要金流、深度系統串接或大型客製功能，會建議另外評估，不會直接包在標準方案裡。</p>
+          </div>
+        </section>
+
+        <section class="brief-card" aria-labelledby="cta-title">
+          <h2 id="cta-title">下一步</h2>
+          <p>合作夥伴可以先看半公開合作頁，再提供一份合作需求摘要，由 Yu Automation 評估是否適合標準包。</p>
+          <ul class="brief-list">
+            <li>你的服務類型</li>
+            <li>客戶大致情境</li>
+            <li>想包裝的服務名稱</li>
+            <li>預計流程</li>
+            <li>是否已有 LINE 官方帳號</li>
+            <li>是否接受標準包範圍</li>
+            <li>預期上線時間</li>
+          </ul>
+          <div class="brief-actions">
+            <a href="partner-automation.html" class="btn-primary">先看合作頁</a>
+            <a href="index.html#contact" class="btn-secondary">提供合作需求摘要</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">Yu Automation</span>
+      <span class="footer-tagline">AI 協作自動化 · 資料整理 · 內部工具建置</span>
+    </div>
+  </footer>
+</body>
+</html>
