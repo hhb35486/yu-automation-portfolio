@@ -236,7 +236,11 @@ LINE 官方帳號、Google Workspace、Airtable、Make、n8n、簡訊、Email �
 
 - partner-automation.html
 
-接著提供一份合作需求摘要，建議包含：
+接著使用合作需求摘要產生器整理初步需求：
+
+- partner-intake.html
+
+合作需求摘要建議包含：
 
 - 你的服務類型
 - 客戶大致情境

@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yu Automation｜合作需求摘要產生器</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Yu Automation 合作需求摘要產生器，協助合作夥伴在白牌自動化交付評估前整理需求、風險邊界、帳號歸屬、工具費與驗收範圍。">
+  <meta property="og:title" content="Yu Automation｜合作需求摘要產生器">
+  <meta property="og:description" content="協助合作夥伴在白牌自動化交付評估前整理需求、風險邊界、帳號歸屬、工具費與驗收範圍。">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Yu Automation">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Yu Automation｜合作需求摘要產生器">
+  <meta name="twitter:description" content="協助合作夥伴在白牌自動化交付評估前整理合作需求摘要。">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .intake-page {
+      background: var(--bg-alt);
+    }
+
+    .intake-page .demo-header-inner {
+      max-width: 880px;
+    }
+
+    .intake-page .demo-title,
+    .intake-page .demo-lede,
+    .intake-page label,
+    .intake-page input,
+    .intake-page select,
+    .intake-page textarea,
+    .intake-card,
+    .summary-output {
+      min-width: 0;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .intake-shell {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: grid;
+      gap: 24px;
+    }
+
+    .intake-card {
+      padding: 30px;
+      border: 1px solid rgba(213, 222, 234, 0.95);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+    }
+
+    .intake-card h2 {
+      margin-bottom: 10px;
+      font-size: 1.45rem;
+      line-height: 1.3;
+    }
+
+    .intake-card > p {
+      margin-bottom: 18px;
+      color: var(--text-secondary);
+      line-height: 1.78;
+    }
+
+    .intake-note {
+      padding: 14px 16px;
+      border: 1px solid var(--accent-border);
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+
+    .intake-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .intake-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .intake-field--full {
+      grid-column: 1 / -1;
+    }
+
+    .intake-field label,
+    .intake-label {
+      color: var(--text);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .intake-hint {
+      color: var(--text-secondary);
+      font-size: 0.84rem;
+      line-height: 1.55;
+    }
+
+    .intake-field input,
+    .intake-field select,
+    .intake-field textarea {
+      width: 100%;
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      font-size: 0.95rem;
+      line-height: 1.55;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+
+    .intake-field input,
+    .intake-field select {
+      min-height: 44px;
+      padding: 10px 12px;
+    }
+
+    .intake-field textarea {
+      min-height: 104px;
+      resize: vertical;
+      padding: 11px 12px;
+    }
+
+    .intake-field input:focus,
+    .intake-field select:focus,
+    .intake-field textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .intake-options {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .intake-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      min-width: 0;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      background: #f8fbff;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .intake-option input {
+      flex: 0 0 auto;
+      width: 16px;
+      height: 16px;
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .intake-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .intake-button {
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .intake-button.btn-secondary {
+      border: 1px solid var(--border);
+    }
+
+    .summary-output {
+      width: 100%;
+      min-height: 380px;
+      padding: 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: #f8fafc;
+      color: var(--text);
+      font: 0.94rem/1.75 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      resize: vertical;
+      white-space: pre-wrap;
+    }
+
+    .copy-status {
+      min-height: 24px;
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 760px) {
+      .intake-card {
+        padding: 24px 20px;
+      }
+
+      .intake-grid,
+      .intake-options {
+        grid-template-columns: 1fr;
+      }
+
+      .intake-page .demo-title {
+        font-size: 2rem;
+        line-height: 1.25;
+      }
+
+      .intake-actions,
+      .intake-page .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .intake-actions .btn-primary,
+      .intake-actions .btn-secondary,
+      .intake-page .btn-primary,
+      .intake-page .btn-secondary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="demo-page intake-page">
+  <header class="demo-header">
+    <div class="container demo-header-inner">
+      <a href="partner-collaboration-brief.html" class="demo-back">&larr; 返回合作說明書</a>
+      <span class="hero-badge">Partner Intake</span>
+      <h1 class="demo-title">合作需求摘要產生器</h1>
+      <p class="demo-lede">
+        給合作夥伴在找 Yu Automation 評估白牌交付前使用。填寫後會在瀏覽器前端產生可複製的合作需求摘要，不送出、不儲存、不串接外部服務。
+      </p>
+      <div class="hero-actions">
+        <a href="partner-collaboration-brief.html" class="btn-primary">查看合作說明書</a>
+        <a href="#intake-form" class="btn-secondary">開始整理摘要</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="demo-main">
+    <div class="container">
+      <form class="intake-shell" id="intake-form">
+        <section class="intake-card" aria-labelledby="privacy-title">
+          <h2 id="privacy-title">填寫前提醒</h2>
+          <p class="intake-note">
+            請不要貼完整客戶名單、身分資料、付款資料或敏感內容。這個頁面只在瀏覽器前端產生文字摘要，不會送出資料、不會儲存資料，也不會串接外部服務。
+          </p>
+        </section>
+
+        <section class="intake-card" aria-labelledby="partner-info-title">
+          <h2 id="partner-info-title">一、合作夥伴基本資訊</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="partner-name">合作夥伴名稱或暱稱</label>
+              <input id="partner-name" name="partnerName" type="text" autocomplete="organization" placeholder="例如：Yu Studio">
+            </div>
+            <div class="intake-field">
+              <label for="partner-type">合作夥伴類型</label>
+              <select id="partner-type" name="partnerType">
+                <option value="">請選擇</option>
+                <option>網站設計師</option>
+                <option>社群經營工作室</option>
+                <option>LINE OA 顧問</option>
+                <option>行銷公司</option>
+                <option>品牌顧問</option>
+                <option>美業講師或顧問</option>
+                <option>POS / CRM 顧問</option>
+                <option>自動化接案者</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="contact">聯絡方式，選填</label>
+              <input id="contact" name="contact" type="text" autocomplete="off" placeholder="可填 LINE、Email 或其他方便聯繫方式">
+            </div>
+            <div class="intake-field">
+              <label for="case-status">這個案子目前狀態</label>
+              <select id="case-status" name="caseStatus">
+                <option value="">請選擇</option>
+                <option>只是初步詢問</option>
+                <option>已和終端客戶談過</option>
+                <option>終端客戶已有明確需求</option>
+                <option>已準備報價</option>
+                <option>已成交，等待交付評估</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="client-context-title">
+          <h2 id="client-context-title">二、終端客戶情境</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="industry">終端客戶行業</label>
+              <input id="industry" name="industry" type="text" placeholder="請用概括描述，例如：美業工作室、課程服務、顧問服務">
+              <span class="intake-hint">請不要填正式名稱或可識別商家資料。</span>
+            </div>
+            <div class="intake-field">
+              <label for="volume">每月大約訊息量或表單量</label>
+              <input id="volume" name="volume" type="text" placeholder="例如：每月約 100 筆詢問 / 40 筆預約">
+            </div>
+            <div class="intake-field intake-field--full">
+              <label for="pain-point">客戶目前主要痛點</label>
+              <textarea id="pain-point" name="painPoint" placeholder="例如：預約訊息分散、提醒靠人工、回訪紀錄不好查。"></textarea>
+            </div>
+            <fieldset class="intake-field intake-field--full">
+              <legend class="intake-label">想改善的流程</legend>
+              <div class="intake-options">
+                <label class="intake-option"><input type="checkbox" name="flows" value="預約">預約</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="報名">報名</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="詢問">詢問</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="提醒">提醒</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="回訪">回訪</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="FAQ">FAQ</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="後台管理">後台管理</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="客戶追蹤">客戶追蹤</label>
+                <label class="intake-option"><input type="checkbox" name="flows" value="其他">其他</label>
+              </div>
+            </fieldset>
+            <div class="intake-field">
+              <label for="has-line-oa">是否已有 LINE 官方帳號</label>
+              <select id="has-line-oa" name="hasLineOa">
+                <option value="">請選擇</option>
+                <option>已有</option>
+                <option>沒有</option>
+                <option>不確定</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="has-backend">是否已有 Google Sheet / Airtable / 其他後台</label>
+              <select id="has-backend" name="hasBackend">
+                <option value="">請選擇</option>
+                <option>已有</option>
+                <option>沒有</option>
+                <option>不確定</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="service-package-title">
+          <h2 id="service-package-title">三、預計包裝成什麼服務</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="service-package">預計服務名稱</label>
+              <select id="service-package" name="servicePackage">
+                <option value="">請選擇</option>
+                <option>LINE 預約自動化系統</option>
+                <option>LINE 客戶回訪系統</option>
+                <option>LINE 表單與後台管理系統</option>
+                <option>小型商家自動提醒系統</option>
+                <option>工作室客戶追蹤與提醒工具</option>
+                <option>其他</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="service-other">其他服務名稱，選填</label>
+              <input id="service-other" name="serviceOther" type="text" placeholder="若選其他，可補充名稱">
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="flow-desc-title">
+          <h2 id="flow-desc-title">四、預計流程描述</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="entry-point">客戶從哪裡進來</label>
+              <textarea id="entry-point" name="entryPoint" placeholder="例如：LINE 選單、社群貼文、網站按鈕、活動頁。"></textarea>
+            </div>
+            <div class="intake-field">
+              <label for="required-data">客戶需要填或回覆哪些資料</label>
+              <textarea id="required-data" name="requiredData" placeholder="例如：姓名代號、服務項目、日期、備註。"></textarea>
+            </div>
+            <div class="intake-field">
+              <label for="backend-fields">後台需要看到哪些欄位</label>
+              <textarea id="backend-fields" name="backendFields" placeholder="例如：來源、狀態、預約時間、處理人員、備註。"></textarea>
+            </div>
+            <div class="intake-field">
+              <label for="notification-targets">誰需要收到通知</label>
+              <textarea id="notification-targets" name="notificationTargets" placeholder="例如：店長、客服、合作夥伴窗口。"></textarea>
+            </div>
+            <div class="intake-field">
+              <label for="reminder-timing">什麼時間點需要提醒</label>
+              <textarea id="reminder-timing" name="reminderTiming" placeholder="例如：預約前一天、服務後三天、表單送出後。"></textarea>
+            </div>
+            <div class="intake-field">
+              <label for="follow-up">是否需要服務後回訪</label>
+              <textarea id="follow-up" name="followUp" placeholder="例如：服務後發送滿意度填寫或再次預約提醒。"></textarea>
+            </div>
+            <div class="intake-field intake-field--full">
+              <label for="report-need">是否需要月報或簡易統計</label>
+              <textarea id="report-need" name="reportNeed" placeholder="例如：每月預約數、來源統計、未處理名單。"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="risk-title">
+          <h2 id="risk-title">五、風險與範圍檢查</h2>
+          <p>若勾選任一項，摘要會標示此案可能不屬於標準交付包，需先由 Yu Automation 評估。若勾選風險項目，或標準包範圍、帳號歸屬、工具費、資料責任尚未確認，摘要會標示需先由 Yu Automation 評估，不代表可以直接交付。</p>
+          <fieldset class="intake-field">
+            <legend class="intake-label">此案是否涉及以下內容</legend>
+            <div class="intake-options">
+              <label class="intake-option"><input type="checkbox" name="risks" value="高敏感資料或高合規要求">高敏感資料或高合規要求</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="金流串接">金流串接</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="POS 深度串接">POS 深度串接</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="會員點數">會員點數</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="客製 App">客製 App</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="多分店複雜排班">多分店複雜排班</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="多角色權限">多角色權限</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="大型 CRM 客製">大型 CRM 客製</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="外部系統深度串接">外部系統深度串接</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="急件或短時間上線">急件或短時間上線</label>
+              <label class="intake-option"><input type="checkbox" name="risks" value="目前還不確定">目前還不確定</label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="intake-card" aria-labelledby="account-title">
+          <h2 id="account-title">六、帳號、工具費與資料責任</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="line-owner">LINE 官方帳號由誰持有</label>
+              <select id="line-owner" name="lineOwner">
+                <option value="">請選擇</option>
+                <option>合作夥伴持有</option>
+                <option>終端客戶持有</option>
+                <option>尚未確認</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="backend-owner">Google Sheet / Airtable / 後台帳號由誰持有</label>
+              <select id="backend-owner" name="backendOwner">
+                <option value="">請選擇</option>
+                <option>合作夥伴持有</option>
+                <option>終端客戶持有</option>
+                <option>尚未確認</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="tool-cost-owner">第三方工具費用由誰負擔</label>
+              <select id="tool-cost-owner" name="toolCostOwner">
+                <option value="">請選擇</option>
+                <option>合作夥伴負擔</option>
+                <option>終端客戶負擔</option>
+                <option>需要討論</option>
+                <option>尚未確認</option>
+              </select>
+            </div>
+            <div class="intake-field">
+              <label for="test-data">是否能先用測試資料或去識別化資料建置</label>
+              <select id="test-data" name="testData">
+                <option value="">請選擇</option>
+                <option>可以</option>
+                <option>需要討論</option>
+                <option>不確定</option>
+                <option>不可以</option>
+              </select>
+            </div>
+            <div class="intake-field intake-field--full">
+              <label for="data-responsibility">是否已確認終端客戶資料蒐集與使用責任由合作夥伴 / 終端客戶自行負責</label>
+              <select id="data-responsibility" name="dataResponsibility">
+                <option value="">請選擇</option>
+                <option>已確認</option>
+                <option>需要討論</option>
+                <option>尚未確認</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="timeline-title">
+          <h2 id="timeline-title">七、預期時程與預算</h2>
+          <div class="intake-grid">
+            <div class="intake-field">
+              <label for="launch-timeline">預期上線時間</label>
+              <input id="launch-timeline" name="launchTimeline" type="text" placeholder="例如：希望 4 週內上線 / 時程可討論">
+            </div>
+            <div class="intake-field">
+              <label for="external-quote-range">合作夥伴預計對外報價區間，選填</label>
+              <input id="external-quote-range" name="externalQuoteRange" type="text" inputmode="text" placeholder="例如：NT$ 58,000 - 98,000">
+            </div>
+            <div class="intake-field">
+              <label for="yu-fee-range">可接受的 Yu Automation 白牌交付費區間，選填</label>
+              <input id="yu-fee-range" name="yuFeeRange" type="text" inputmode="text" placeholder="例如：NT$ 30,000 - 55,000">
+            </div>
+            <div class="intake-field">
+              <label for="standard-package">是否接受標準包範圍</label>
+              <select id="standard-package" name="standardPackage">
+                <option value="">請選擇</option>
+                <option>接受</option>
+                <option>需要討論</option>
+                <option>不確定</option>
+                <option>不接受</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="intake-card" aria-labelledby="commitment-title">
+          <h2 id="commitment-title">八、承諾前確認</h2>
+          <fieldset class="intake-field">
+            <legend class="intake-label">請確認以下事項</legend>
+            <div class="intake-options">
+              <label class="intake-option"><input type="checkbox" name="commitments" value="未經 Yu Automation 評估前，不建議先向終端客戶承諾功能、價格或上線時程">我了解未經 Yu Automation 評估前，不建議先向終端客戶承諾功能、價格或上線時程</label>
+              <label class="intake-option"><input type="checkbox" name="commitments" value="月維護不等於無限修改或即時客服">我了解月維護不等於無限修改或即時客服</label>
+              <label class="intake-option"><input type="checkbox" name="commitments" value="第三方工具費用通常不包含在白牌交付費內">我了解第三方工具費用通常不包含在白牌交付費內</label>
+              <label class="intake-option"><input type="checkbox" name="commitments" value="新增流程、重做流程、跨範圍修改需要另外估價">我了解新增流程、重做流程、跨範圍修改需要另外估價</label>
+            </div>
+          </fieldset>
+        </section>
+
+        <section class="intake-card" aria-labelledby="summary-title">
+          <h2 id="summary-title">產生合作需求摘要</h2>
+          <p>按下按鈕後，頁面會依目前填寫內容產生一段可複製文字。產生的摘要只是初步整理，不代表 Yu Automation 已接受案件、確認報價或承諾上線時程。</p>
+          <div class="intake-actions">
+            <button class="btn-primary intake-button" type="submit">產生合作需求摘要</button>
+            <button class="btn-secondary intake-button" type="button" id="copy-summary">複製摘要</button>
+            <button class="btn-secondary intake-button" type="button" id="clear-form">清空重填</button>
+          </div>
+          <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+          <label class="intake-label" for="summary-output">合作需求摘要</label>
+          <textarea class="summary-output" id="summary-output" readonly placeholder="摘要會顯示在這裡。"></textarea>
+        </section>
+      </form>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span class="footer-brand">Yu Automation</span>
+      <span class="footer-tagline">AI 協作自動化 · 資料整理 · 內部工具建置</span>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const form = document.querySelector('#intake-form');
+      const output = document.querySelector('#summary-output');
+      const copyButton = document.querySelector('#copy-summary');
+      const clearButton = document.querySelector('#clear-form');
+      const copyStatus = document.querySelector('#copy-status');
+
+      if (!form || !output || !copyButton || !clearButton || !copyStatus) {
+        return;
+      }
+
+      const fallbackText = '未填寫';
+
+      const getValue = (name) => {
+        const field = form.elements[name];
+        return field && field.value.trim() ? field.value.trim() : fallbackText;
+      };
+
+      const getSelectedValues = (name) => {
+        const checked = Array.from(form.querySelectorAll(`input[name="${name}"]:checked`))
+          .map(input => input.value.trim())
+          .filter(Boolean);
+
+        return checked;
+      };
+
+      const getCheckedValues = (name) => {
+        const checked = getSelectedValues(name);
+        return checked.length ? checked : [fallbackText];
+      };
+
+      const makeLine = (label, value) => `- ${label}：${value}`;
+      const makeList = (values) => values.map(value => `- ${value}`).join('\n');
+      const requiredCommitments = [
+        '未經 Yu Automation 評估前，不建議先向終端客戶承諾功能、價格或上線時程',
+        '月維護不等於無限修改或即時客服',
+        '第三方工具費用通常不包含在白牌交付費內',
+        '新增流程、重做流程、跨範圍修改需要另外估價'
+      ];
+
+      const generateSummary = () => {
+        const flows = getCheckedValues('flows');
+        const selectedRisks = getSelectedValues('risks');
+        const risks = selectedRisks.length ? selectedRisks : [fallbackText];
+        const selectedCommitments = new Set(getSelectedValues('commitments'));
+        const commitmentStatuses = requiredCommitments.map(item => (
+          `${item}：${selectedCommitments.has(item) ? '已確認' : '未確認'}`
+        ));
+        const hasMissingCommitments = selectedCommitments.size < requiredCommitments.length;
+        const hasRisks = selectedRisks.length > 0;
+        const selectedPackage = getValue('servicePackage');
+        const serviceOther = getValue('serviceOther');
+        const serviceName = selectedPackage === '其他' && serviceOther !== fallbackText
+          ? serviceOther
+          : selectedPackage;
+        const caseStatus = getValue('caseStatus');
+        const hasLineOa = getValue('hasLineOa');
+        const hasBackend = getValue('hasBackend');
+        const lineOwner = getValue('lineOwner');
+        const backendOwner = getValue('backendOwner');
+        const toolCostOwner = getValue('toolCostOwner');
+        const testData = getValue('testData');
+        const dataResponsibility = getValue('dataResponsibility');
+        const standardPackage = getValue('standardPackage');
+        const warnings = [];
+        let needsKeyConfirmation = false;
+
+        if (hasRisks) {
+          warnings.push('已勾選風險或跨範圍項目，此案可能不屬於標準交付包，需先由 Yu Automation 評估。');
+        }
+
+        if (hasMissingCommitments) {
+          needsKeyConfirmation = true;
+          warnings.push('承諾前確認尚未完整勾選，合作夥伴不建議先向終端客戶承諾功能、價格、時程或維護範圍。');
+        }
+
+        if (standardPackage === '不接受') {
+          needsKeyConfirmation = true;
+          warnings.push('此案目前不適合直接視為標準包，需重新評估範圍、費用與驗收方式。');
+        } else if (standardPackage !== '接受') {
+          needsKeyConfirmation = true;
+          warnings.push('標準包範圍尚未明確接受，需先確認是否能用輕量交付方式處理。');
+        }
+
+        if (lineOwner === '尚未確認' || lineOwner === fallbackText) {
+          needsKeyConfirmation = true;
+          warnings.push('LINE 官方帳號持有者尚未確認，需先確認帳號歸屬與必要權限。');
+        }
+
+        if (backendOwner === '尚未確認' || backendOwner === fallbackText) {
+          needsKeyConfirmation = true;
+          warnings.push('Google Sheet / Airtable / 後台帳號持有者尚未確認，需先確認帳號歸屬與維護權限。');
+        }
+
+        if (['需要討論', '尚未確認', fallbackText].includes(toolCostOwner)) {
+          needsKeyConfirmation = true;
+          warnings.push('第三方工具費用負擔方式尚未確認，需先確認由誰負擔與是否另行計費。');
+        }
+
+        if (testData === '不可以') {
+          needsKeyConfirmation = true;
+          warnings.push('目前無法先用測試資料或去識別化資料建置，不建議在初步評估階段提供完整客戶名單或敏感資料。');
+        } else if (testData !== '可以') {
+          needsKeyConfirmation = true;
+          warnings.push('測試資料或去識別化資料可用性尚未確認，建議先用測試資料或去識別化資料進行評估與建置。');
+        }
+
+        if (['需要討論', '尚未確認', fallbackText].includes(dataResponsibility)) {
+          needsKeyConfirmation = true;
+          warnings.push('終端客戶資料蒐集與使用責任尚未確認，需先由合作夥伴與終端客戶釐清。');
+        }
+
+        if (hasLineOa === '沒有') {
+          needsKeyConfirmation = true;
+          warnings.push('尚未有 LINE 官方帳號，需先確認帳號建立、持有、權限與可用功能。');
+        } else if (hasLineOa === '不確定' || hasLineOa === fallbackText) {
+          needsKeyConfirmation = true;
+          warnings.push('LINE 官方帳號狀態尚未確認，需先確認帳號持有、權限與可用功能。');
+        }
+
+        if (hasBackend === '沒有') {
+          warnings.push('目前尚未有既有後台，可由標準包規劃輕量後台，但仍需確認欄位與權限需求。');
+        } else if (hasBackend === '不確定' || hasBackend === fallbackText) {
+          needsKeyConfirmation = true;
+          warnings.push('後台狀態不確定，需先確認是否已有既有資料結構或舊流程。');
+        }
+
+        if (caseStatus === '已成交，等待交付評估') {
+          needsKeyConfirmation = true;
+          warnings.push('案件已成交後才進入交付評估，需先確認合作夥伴是否已向終端客戶承諾功能、時程、價格或維護範圍。');
+        }
+
+        const strongScopeMismatch = standardPackage === '不接受';
+        const riskNote = hasRisks
+          ? '此案可能不屬於標準交付包，需先由 Yu Automation 評估。'
+          : '目前未勾選高風險或跨範圍項目。';
+        const initialRead = hasRisks || strongScopeMismatch
+          ? '此案可能不屬於標準交付包，需先由 Yu Automation 評估範圍、費用與風險。'
+          : needsKeyConfirmation
+            ? '此案目前需要先補齊關鍵確認事項，再由 Yu Automation 評估是否適合標準包。'
+          : '初步看起來可能適合標準包，但仍需 Yu Automation 評估。';
+        const warningLines = warnings.length
+          ? warnings
+          : ['目前未偵測到明顯待確認警示，但仍需 Yu Automation 評估。'];
+
+        return [
+          '【合作需求摘要】',
+          '',
+          '1. 合作夥伴資訊',
+          makeLine('合作夥伴名稱或暱稱', getValue('partnerName')),
+          makeLine('合作夥伴類型', getValue('partnerType')),
+          makeLine('聯絡方式', getValue('contact')),
+          '',
+          '2. 案件狀態',
+          makeLine('目前狀態', getValue('caseStatus')),
+          '',
+          '3. 終端客戶情境',
+          makeLine('概括行業', getValue('industry')),
+          makeLine('主要痛點', getValue('painPoint')),
+          makeLine('想改善的流程', flows.join('、')),
+          makeLine('每月大約訊息量或表單量', getValue('volume')),
+          makeLine('是否已有 LINE 官方帳號', getValue('hasLineOa')),
+          makeLine('是否已有 Google Sheet / Airtable / 其他後台', getValue('hasBackend')),
+          '',
+          '4. 預計包裝服務',
+          makeLine('服務名稱', serviceName),
+          '',
+          '5. 預計流程',
+          makeLine('客戶從哪裡進來', getValue('entryPoint')),
+          makeLine('客戶需要填或回覆哪些資料', getValue('requiredData')),
+          makeLine('後台需要看到哪些欄位', getValue('backendFields')),
+          makeLine('誰需要收到通知', getValue('notificationTargets')),
+          makeLine('提醒時間點', getValue('reminderTiming')),
+          makeLine('是否需要服務後回訪', getValue('followUp')),
+          makeLine('是否需要月報或簡易統計', getValue('reportNeed')),
+          '',
+          '6. 風險檢查結果',
+          makeLine('勾選項目', risks.join('、')),
+          makeLine('提示', riskNote),
+          '',
+          '7. 帳號與工具費責任',
+          makeLine('LINE 官方帳號持有者', getValue('lineOwner')),
+          makeLine('Google Sheet / Airtable / 後台帳號持有者', getValue('backendOwner')),
+          makeLine('第三方工具費用負擔者', getValue('toolCostOwner')),
+          makeLine('是否能先用測試資料或去識別化資料建置', getValue('testData')),
+          makeLine('資料蒐集與使用責任確認', getValue('dataResponsibility')),
+          '',
+          '8. 預期時程與預算',
+          makeLine('預期上線時間', getValue('launchTimeline')),
+          makeLine('合作夥伴預計對外報價區間', getValue('externalQuoteRange')),
+          makeLine('可接受的 Yu Automation 白牌交付費區間', getValue('yuFeeRange')),
+          makeLine('是否接受標準包範圍', getValue('standardPackage')),
+          '',
+          '9. 承諾前確認狀態',
+          makeList(commitmentStatuses),
+          '',
+          '10. 待確認與警示',
+          makeList(warningLines),
+          '',
+          '11. 初步判斷',
+          `- ${initialRead}`
+        ].join('\n');
+      };
+
+      form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        output.value = generateSummary();
+        copyStatus.textContent = '摘要已產生，可複製後貼給 Yu Automation 初步評估。';
+        output.focus();
+        output.setSelectionRange(0, 0);
+      });
+
+      copyButton.addEventListener('click', async () => {
+        if (!output.value.trim()) {
+          copyStatus.textContent = '請先產生摘要。';
+          return;
+        }
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(output.value);
+            copyStatus.textContent = '已複製摘要。';
+            return;
+          }
+
+          output.focus();
+          output.select();
+          const copied = document.execCommand('copy');
+          copyStatus.textContent = copied ? '已複製摘要。' : '已選取摘要，請使用快捷鍵複製。';
+        } catch (error) {
+          output.focus();
+          output.select();
+          copyStatus.textContent = '已選取摘要，請使用快捷鍵複製。';
+        }
+      });
+
+      clearButton.addEventListener('click', () => {
+        form.reset();
+        output.value = '';
+        copyStatus.textContent = '已清空，可重新填寫。';
+        const firstField = document.querySelector('#partner-name');
+
+        if (firstField) {
+          firstField.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
