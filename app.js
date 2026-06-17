@@ -321,6 +321,27 @@ const excelCsvCleanerDemo = document.querySelector('[data-demo="excel-csv-cleane
 if (excelCsvCleanerDemo) {
   const cleanerButtons = document.querySelectorAll('[data-cleaner-view]');
   const cleanerPanels = document.querySelectorAll('[data-cleaner-panel]');
+  const sampleCsvSource = document.querySelector('#sample-csv-source');
+  const beforeTable = document.querySelector('#cleaner-before-table');
+  const afterTable = document.querySelector('#cleaner-after-table');
+  const rowCount = document.querySelector('#cleaner-row-count');
+  const statusMessage = document.querySelector('#cleaner-status');
+  const loadSampleButton = document.querySelector('#load-sample-csv');
+  const copyCleanedButton = document.querySelector('#copy-cleaned-csv');
+  const downloadCleanedButton = document.querySelector('#download-cleaned-csv');
+  const summaryEmptyRows = document.querySelector('#summary-removed-empty-rows');
+  const summaryTrimmedCells = document.querySelector('#summary-trimmed-cells');
+  const summaryNormalizedHeaders = document.querySelector('#summary-normalized-headers');
+  const summaryDuplicateRows = document.querySelector('#summary-duplicate-rows');
+
+  const cleanerSampleCsv = `department, report item, amount, status
+Sales , Monthly Leads , 120 , Done
+Sales, Monthly Leads, 120, Done
+Ops,  Inventory Count , 58, Pending
+, , ,
+Marketing, Campaign List, 32, Done`;
+
+  let cleanedCsvOutput = '';
 
   const setCleanerView = (viewName) => {
     cleanerButtons.forEach(button => {
@@ -336,11 +357,258 @@ if (excelCsvCleanerDemo) {
     });
   };
 
+  const escapeCleanerHtml = (value) => String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#039;');
+
+  const parseCsvLine = (line) => {
+    const cells = [];
+    let current = '';
+    let inQuotes = false;
+
+    for (let i = 0; i < line.length; i += 1) {
+      const char = line[i];
+      const nextChar = line[i + 1];
+
+      if (char === '"' && inQuotes && nextChar === '"') {
+        current += '"';
+        i += 1;
+      } else if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === ',' && !inQuotes) {
+        cells.push(current);
+        current = '';
+      } else {
+        current += char;
+      }
+    }
+
+    cells.push(current);
+    return cells;
+  };
+
+  const parseCsv = (csvText) => {
+    const lines = csvText.trim().split(/\r?\n/);
+    const headers = parseCsvLine(lines[0] || '');
+    const rows = lines.slice(1).map(parseCsvLine);
+
+    return { headers, rows };
+  };
+
+  const normalizeHeader = (header, index) => {
+    const normalized = header
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '_')
+      .replace(/^_+|_+$/g, '');
+
+    return normalized || `column_${index + 1}`;
+  };
+
+  const toCsvValue = (value) => {
+    const text = String(value);
+    return /[",\n\r]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text;
+  };
+
+  const toCsv = (headers, rows) => [
+    headers.map(toCsvValue).join(','),
+    ...rows.map(row => row.map(toCsvValue).join(','))
+  ].join('\n');
+
+  const renderTable = (target, headers, rows) => {
+    if (!target) {
+      return;
+    }
+
+    if (!headers.length) {
+      target.innerHTML = '<p class="cleaner-table-empty">No CSV data loaded.</p>';
+      return;
+    }
+
+    target.innerHTML = `
+      <table class="cleaner-table">
+        <thead>
+          <tr>${headers.map(header => `<th>${escapeCleanerHtml(header)}</th>`).join('')}</tr>
+        </thead>
+        <tbody>
+          ${rows.map(row => `
+            <tr>
+              ${headers.map((_, index) => `<td>${escapeCleanerHtml(row[index] || '')}</td>`).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    `;
+  };
+
+  const cleanCsv = (csvText) => {
+    const parsed = parseCsv(csvText);
+    const normalizedHeaders = parsed.headers.map(normalizeHeader);
+    const normalizedHeaderCount = parsed.headers.reduce((count, header, index) => (
+      header !== normalizedHeaders[index] ? count + 1 : count
+    ), 0);
+    const seenRows = new Set();
+    const cleanedRows = [];
+    let removedEmptyRows = 0;
+    let trimmedCells = 0;
+    let duplicateRows = 0;
+
+    parsed.rows.forEach(row => {
+      const paddedRow = normalizedHeaders.map((_, index) => row[index] || '');
+      const trimmedRow = paddedRow.map(cell => {
+        const trimmedCell = cell.trim();
+
+        if (cell !== trimmedCell) {
+          trimmedCells += 1;
+        }
+
+        return trimmedCell;
+      });
+
+      if (trimmedRow.every(cell => cell === '')) {
+        removedEmptyRows += 1;
+        return;
+      }
+
+      const rowKey = trimmedRow.join('\u001f');
+
+      if (seenRows.has(rowKey)) {
+        duplicateRows += 1;
+        return;
+      }
+
+      seenRows.add(rowKey);
+      cleanedRows.push(trimmedRow);
+    });
+
+    return {
+      originalHeaders: parsed.headers,
+      originalRows: parsed.rows,
+      headers: normalizedHeaders,
+      rows: cleanedRows,
+      summary: {
+        removedEmptyRows,
+        trimmedCells,
+        normalizedHeaders: normalizedHeaderCount,
+        duplicateRows
+      }
+    };
+  };
+
+  const updateSummary = (summary, cleanedRows) => {
+    if (rowCount) {
+      rowCount.textContent = String(cleanedRows.length);
+    }
+
+    if (summaryEmptyRows) {
+      summaryEmptyRows.textContent = String(summary.removedEmptyRows);
+    }
+
+    if (summaryTrimmedCells) {
+      summaryTrimmedCells.textContent = String(summary.trimmedCells);
+    }
+
+    if (summaryNormalizedHeaders) {
+      summaryNormalizedHeaders.textContent = String(summary.normalizedHeaders);
+    }
+
+    if (summaryDuplicateRows) {
+      summaryDuplicateRows.textContent = String(summary.duplicateRows);
+    }
+  };
+
+  const loadCleanerSample = (message = '已載入範例 CSV，並完成本機清理。') => {
+    const cleaned = cleanCsv(cleanerSampleCsv);
+    cleanedCsvOutput = toCsv(cleaned.headers, cleaned.rows);
+
+    if (sampleCsvSource) {
+      sampleCsvSource.textContent = cleanerSampleCsv;
+    }
+
+    renderTable(beforeTable, cleaned.originalHeaders, cleaned.originalRows);
+    renderTable(afterTable, cleaned.headers, cleaned.rows);
+    updateSummary(cleaned.summary, cleaned.rows);
+
+    if (statusMessage) {
+      statusMessage.textContent = message;
+    }
+  };
+
+  const copyCleanedCsv = async () => {
+    if (!cleanedCsvOutput) {
+      loadCleanerSample('已先載入範例 CSV，再複製清理後結果。');
+    }
+
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(cleanedCsvOutput);
+      } else {
+        const fallbackTextarea = document.createElement('textarea');
+        fallbackTextarea.value = cleanedCsvOutput;
+        fallbackTextarea.setAttribute('readonly', '');
+        fallbackTextarea.style.position = 'fixed';
+        fallbackTextarea.style.left = '-9999px';
+        document.body.appendChild(fallbackTextarea);
+        fallbackTextarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(fallbackTextarea);
+      }
+
+      if (statusMessage) {
+        statusMessage.textContent = '已複製清理後 CSV。仍請人工確認內容。';
+      }
+    } catch (error) {
+      if (statusMessage) {
+        statusMessage.textContent = '無法自動複製，請直接選取 After table 或下載 CSV。';
+      }
+    }
+  };
+
+  const downloadCleanedCsv = () => {
+    if (!cleanedCsvOutput) {
+      loadCleanerSample('已先載入範例 CSV，再建立下載檔。');
+    }
+
+    const blob = new Blob([cleanedCsvOutput], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'cleaned-report-table-sample.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    if (statusMessage) {
+      statusMessage.textContent = '已下載範例清理結果。這不是正式資料處理輸出。';
+    }
+  };
+
   cleanerButtons.forEach(button => {
     button.addEventListener('click', () => {
       setCleanerView(button.dataset.cleanerView || 'before');
     });
   });
+
+  if (loadSampleButton) {
+    loadSampleButton.addEventListener('click', () => {
+      loadCleanerSample();
+      setCleanerView('summary');
+    });
+  }
+
+  if (copyCleanedButton) {
+    copyCleanedButton.addEventListener('click', copyCleanedCsv);
+  }
+
+  if (downloadCleanedButton) {
+    downloadCleanedButton.addEventListener('click', downloadCleanedCsv);
+  }
+
+  loadCleanerSample('範例 CSV 已載入。所有處理都在本頁面內完成。');
 }
 
 // PDF extractor demo

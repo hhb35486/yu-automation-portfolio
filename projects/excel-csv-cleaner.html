@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Excel / CSV 自動整理工具 Demo｜Yu Automation</title>
-  <meta name="description" content="Excel / CSV 自動整理工具 Demo，展示資料清洗、欄位標準化、資料合併與輸出前檢查流程。">
+  <title>Excel / CSV 表格整理 Demo｜Yu Automation</title>
+  <meta name="description" content="Excel / CSV 表格整理 Demo，使用範例資料示範空白列、前後空白、欄位標準化與重複列偵測。">
   <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,207 +15,158 @@
   <header class="demo-header">
     <div class="container demo-header-inner">
       <a href="../index.html#portfolio" class="demo-back">&larr; 返回首頁</a>
-      <span class="hero-badge">Portfolio Demo</span>
-      <h1 class="demo-title">Excel / CSV 自動整理工具 Demo</h1>
+      <span class="hero-badge">Portfolio Demo · Synthetic Sample</span>
+      <h1 class="demo-title">Excel / CSV 表格整理 Demo</h1>
       <p class="demo-lede">
-        展示資料清洗、欄位標準化、資料合併與輸出前檢查流程，把多份格式不一致的報表整理成乾淨資料。
+        把空列、空白、重複列與混亂欄位整理成乾淨表格，方便貼到報告或再加工。
       </p>
+      <p class="demo-boundary-note">本 Demo 使用範例資料，不處理真實客戶資料。</p>
+      <div class="demo-hero-actions">
+        <a href="#cleaner-demo" class="btn-primary">查看範例整理結果</a>
+        <a href="#cleaner-boundary" class="btn-secondary">查看資料邊界</a>
+      </div>
     </div>
   </header>
 
   <main class="demo-main" data-demo="excel-csv-cleaner">
-    <section class="container cleaner-showcase" aria-labelledby="cleaner-title">
+    <section class="container cleaner-problems" aria-labelledby="cleaner-problem-title">
+      <div class="section-header">
+        <h2 class="section-title" id="cleaner-problem-title">常見表格整理問題</h2>
+        <p class="section-desc">報告前的最後一哩路，通常不是大系統問題，而是小表格不乾淨。</p>
+      </div>
+      <div class="cleaner-problem-grid">
+        <article class="cleaner-problem-card">
+          <span>01</span>
+          <h3>欄位名稱不一致</h3>
+          <p>同一種欄位可能被寫成不同名稱，貼到報告前需要先統一。</p>
+        </article>
+        <article class="cleaner-problem-card">
+          <span>02</span>
+          <h3>前後空白</h3>
+          <p>人工複製或不同來源匯出時，儲存格常帶著看不見的空白。</p>
+        </article>
+        <article class="cleaner-problem-card">
+          <span>03</span>
+          <h3>空白列</h3>
+          <p>空列會干擾篩選、統計與後續貼表，應先移除。</p>
+        </article>
+        <article class="cleaner-problem-card">
+          <span>04</span>
+          <h3>重複資料</h3>
+          <p>重複列不一定要立刻刪除，但至少要被偵測出來讓人確認。</p>
+        </article>
+        <article class="cleaner-problem-card">
+          <span>05</span>
+          <h3>報告前仍要整理</h3>
+          <p>資料即使已經匯出成 CSV，仍常需要再清成可閱讀的表格。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="container cleaner-showcase" id="cleaner-demo" aria-labelledby="cleaner-title">
       <div class="demo-tool-header">
         <div>
-          <h2 id="cleaner-title">Before / After 資料整理流程</h2>
-          <p>以下內容皆為展示用假資料，模擬常見的欄位不一致、日期格式不一致、金額格式不一致、重複資料與空白欄位。</p>
+          <h2 id="cleaner-title">範例 CSV 清理流程</h2>
+          <p>下方只使用 synthetic sample data。頁面不提供檔案上傳，所有處理都在瀏覽器端完成。</p>
         </div>
         <div class="demo-count">
-          <strong>10</strong>
-          <span>整理後筆數</span>
+          <strong id="cleaner-row-count">0</strong>
+          <span>清理後資料列</span>
         </div>
       </div>
 
+      <div class="cleaner-demo-actions" aria-label="CSV demo actions">
+        <button type="button" class="cleaner-action-button" id="load-sample-csv">查看範例整理結果</button>
+        <button type="button" class="cleaner-action-button cleaner-action-button--secondary" id="copy-cleaned-csv">複製清理後 CSV</button>
+        <button type="button" class="cleaner-action-button cleaner-action-button--secondary" id="download-cleaned-csv">下載清理後 CSV</button>
+      </div>
+      <p class="cleaner-status" id="cleaner-status" role="status" aria-live="polite">範例資料會在本頁面內清理，不會送到 server。</p>
+
+      <div class="cleaner-sample-card">
+        <div class="cleaner-panel-head">
+          <span class="block-label">Sample CSV</span>
+          <h3>範例輸入</h3>
+          <p>這組資料刻意包含前後空白、空白列與重複列，用來展示清理流程。</p>
+        </div>
+        <pre class="cleaner-sample-source" id="sample-csv-source" aria-label="synthetic sample csv"></pre>
+      </div>
+
       <div class="cleaner-tabs" role="tablist" aria-label="資料整理展示切換">
-        <button type="button" class="is-active" role="tab" aria-selected="true" aria-controls="cleaner-before" data-cleaner-view="before">顯示原始資料</button>
-        <button type="button" role="tab" aria-selected="false" aria-controls="cleaner-after" data-cleaner-view="after">顯示整理後資料</button>
-        <button type="button" role="tab" aria-selected="false" aria-controls="cleaner-summary" data-cleaner-view="summary">顯示處理摘要</button>
+        <button type="button" class="is-active" role="tab" aria-selected="true" aria-controls="cleaner-before" data-cleaner-view="before">Before table</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="cleaner-after" data-cleaner-view="after">After table</button>
+        <button type="button" role="tab" aria-selected="false" aria-controls="cleaner-summary" data-cleaner-view="summary">Summary</button>
       </div>
 
       <div class="cleaner-panel is-active" id="cleaner-before" role="tabpanel" data-cleaner-panel="before">
         <div class="cleaner-panel-head">
           <span class="block-label">Before</span>
-          <h3>原始資料</h3>
-          <p>欄位名稱、日期、金額與狀態格式不一致，並包含重複資料與空白欄位。</p>
+          <h3>原始表格</h3>
+          <p>保留範例 CSV 的原始欄位與資料列，方便比對清理前的狀態。</p>
         </div>
-        <div class="cleaner-table-wrap" tabindex="0">
-          <table class="cleaner-table">
-            <thead>
-              <tr>
-                <th>訂單欄位</th>
-                <th>客戶代號</th>
-                <th>日期</th>
-                <th>金額</th>
-                <th>狀態</th>
-                <th>來源檔案</th>
-                <th>問題</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>order_no: A-1001</td>
-                <td>C-001</td>
-                <td>2026/05/01</td>
-                <td>12,500</td>
-                <td>done</td>
-                <td>may-a.csv</td>
-                <td><span class="issue-chip">欄位名稱不一致</span></td>
-              </tr>
-              <tr>
-                <td>訂單編號: A-1002</td>
-                <td>C-002</td>
-                <td>05-02-2026</td>
-                <td>NT$8,900</td>
-                <td>完成</td>
-                <td>may-b.xlsx</td>
-                <td><span class="issue-chip">日期格式不一致</span></td>
-              </tr>
-              <tr>
-                <td>order_id: A-1003</td>
-                <td></td>
-                <td>2026.05.03</td>
-                <td>6400</td>
-                <td>pending</td>
-                <td>may-a.csv</td>
-                <td><span class="issue-chip">空白欄位</span></td>
-              </tr>
-              <tr>
-                <td>order_no: A-1002</td>
-                <td>C-002</td>
-                <td>2026/05/02</td>
-                <td>8900</td>
-                <td>done</td>
-                <td>may-c.csv</td>
-                <td><span class="issue-chip">重複資料</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="cleaner-table-wrap" id="cleaner-before-table" tabindex="0"></div>
       </div>
 
       <div class="cleaner-panel" id="cleaner-after" role="tabpanel" data-cleaner-panel="after" hidden>
         <div class="cleaner-panel-head">
           <span class="block-label">After</span>
-          <h3>整理後資料</h3>
-          <p>欄位統一、日期統一、金額轉為數字、去除重複，並將狀態轉為一致用語。</p>
+          <h3>清理後表格</h3>
+          <p>移除空白列、trim 儲存格、normalize headers，並排除已偵測到的重複列。</p>
         </div>
-        <div class="cleaner-table-wrap" tabindex="0">
-          <table class="cleaner-table">
-            <thead>
-              <tr>
-                <th>訂單編號</th>
-                <th>客戶代號</th>
-                <th>日期</th>
-                <th>金額</th>
-                <th>狀態</th>
-                <th>來源檔案</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>A-1001</td>
-                <td>C-001</td>
-                <td>2026-05-01</td>
-                <td>12500</td>
-                <td>已完成</td>
-                <td>may-a.csv</td>
-              </tr>
-              <tr>
-                <td>A-1002</td>
-                <td>C-002</td>
-                <td>2026-05-02</td>
-                <td>8900</td>
-                <td>已完成</td>
-                <td>may-b.xlsx</td>
-              </tr>
-              <tr>
-                <td>A-1003</td>
-                <td>待補</td>
-                <td>2026-05-03</td>
-                <td>6400</td>
-                <td>待處理</td>
-                <td>may-a.csv</td>
-              </tr>
-              <tr>
-                <td>A-1004</td>
-                <td>C-004</td>
-                <td>2026-05-04</td>
-                <td>15200</td>
-                <td>已完成</td>
-                <td>may-c.csv</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="cleaner-table-wrap" id="cleaner-after-table" tabindex="0"></div>
       </div>
 
       <div class="cleaner-panel" id="cleaner-summary" role="tabpanel" data-cleaner-panel="summary" hidden>
         <div class="cleaner-panel-head">
           <span class="block-label">Summary</span>
           <h3>處理摘要</h3>
-          <p>以下為展示用假數據，用來說明資料整理流程會如何回報清洗結果。</p>
+          <p>這些數字只說明範例資料的清理結果，不代表任何正式資料的正確性。</p>
         </div>
         <div class="cleaner-summary-grid">
           <div class="summary-card">
-            <span>原始筆數</span>
-            <strong>12</strong>
+            <span>removed_empty_rows</span>
+            <strong id="summary-removed-empty-rows">0</strong>
           </div>
           <div class="summary-card">
-            <span>重複資料</span>
-            <strong>2</strong>
+            <span>trimmed_cells</span>
+            <strong id="summary-trimmed-cells">0</strong>
           </div>
           <div class="summary-card">
-            <span>空白欄位</span>
-            <strong>3</strong>
+            <span>normalized_headers</span>
+            <strong id="summary-normalized-headers">0</strong>
           </div>
           <div class="summary-card">
-            <span>整理後筆數</span>
-            <strong>10</strong>
-          </div>
-          <div class="summary-card">
-            <span>欄位已標準化</span>
-            <strong>6</strong>
+            <span>duplicate_rows_detected</span>
+            <strong id="summary-duplicate-rows">0</strong>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="container cleaner-flow" aria-labelledby="cleaner-flow-title">
+    <section class="container cleaner-boundary" id="cleaner-boundary" aria-labelledby="cleaner-boundary-title">
       <div class="section-header">
-        <h2 class="section-title" id="cleaner-flow-title">處理流程</h2>
-        <p class="section-desc">從多份來源檔案到乾淨輸出資料，流程清楚、可重複執行。</p>
+        <h2 class="section-title" id="cleaner-boundary-title">Privacy / Boundary</h2>
+        <p class="section-desc">這是作品集 demo，不是正式資料處理服務，也不是資料正確性保證工具。</p>
       </div>
-      <div class="cleaner-flow-grid">
-        <article class="cleaner-flow-step">
-          <span>01</span>
-          <h3>讀取多份檔案</h3>
-          <p>匯入不同來源的 Excel / CSV，保留來源檔案資訊方便追蹤。</p>
-        </article>
-        <article class="cleaner-flow-step">
-          <span>02</span>
-          <h3>欄位標準化</h3>
-          <p>將不同欄位名稱對應到統一欄位，降低後續整理難度。</p>
-        </article>
-        <article class="cleaner-flow-step">
-          <span>03</span>
-          <h3>清洗與去重</h3>
-          <p>統一日期與金額格式，標記空白欄位並移除重複資料。</p>
-        </article>
-        <article class="cleaner-flow-step">
-          <span>04</span>
-          <h3>輸出整理後報表</h3>
-          <p>輸出欄位一致、可篩選、可匯入系統或後續分析的乾淨資料。</p>
-        </article>
+      <div class="boundary-card">
+        <ul class="boundary-list">
+          <li>請不要上傳真實客戶資料。</li>
+          <li>請不要上傳公司內部資料。</li>
+          <li>請不要上傳保險 / 金融 / 醫療 / 身分證 / 聯絡方式等敏感資料。</li>
+          <li>Demo 預設使用範例資料。</li>
+          <li>本頁面不提供資料正確性保證，清理後仍需人工確認。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="container cleaner-flow" aria-labelledby="cleaner-cta-title">
+      <div class="cleaner-cta-panel">
+        <span class="block-label">Next</span>
+        <h2 id="cleaner-cta-title">想做類似內部工具，可從作品集聯絡</h2>
+        <p>這個 demo 只展示「報告表格清理」的一小段流程。實際工具仍需要先確認資料邊界、欄位規則與人工覆核方式。</p>
+        <div class="demo-hero-actions">
+          <a href="#cleaner-demo" class="btn-primary">查看範例整理結果</a>
+          <a href="../index.html#contact" class="btn-secondary">從作品集聯絡</a>
+        </div>
       </div>
     </section>
   </main>
