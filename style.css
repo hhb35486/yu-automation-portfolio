@@ -1312,6 +1312,47 @@ ul {
   gap: 22px;
 }
 
+.cleaner-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cleaner-step-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid rgba(213, 222, 234, 0.95);
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+}
+
+.cleaner-step-card span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: white;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.cleaner-step-card h3 {
+  margin-bottom: 7px;
+  font-size: 0.98rem;
+  line-height: 1.35;
+}
+
+.cleaner-step-card p {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
 .cleaner-demo-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1414,6 +1455,13 @@ ul {
   color: var(--accent);
 }
 
+.cleaner-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  align-items: start;
+}
+
 .cleaner-panel {
   overflow: hidden;
   border: 1px solid rgba(213, 222, 234, 0.95);
@@ -1487,6 +1535,18 @@ ul {
   border-bottom: none;
 }
 
+.cleaner-table tr.is-empty-row td {
+  background: #fff7ed;
+}
+
+.cleaner-table tr.is-duplicate-row td {
+  background: #fffbeb;
+}
+
+.cleaner-table td.is-trimmed-cell {
+  background: #eff6ff;
+}
+
 .issue-chip {
   display: inline-flex;
   align-items: center;
@@ -1498,6 +1558,10 @@ ul {
   color: #9f1239;
   font-size: 0.74rem;
   font-weight: 700;
+}
+
+.issue-chip + .issue-chip {
+  margin-left: 5px;
 }
 
 .cleaner-summary-grid {
@@ -1529,6 +1593,10 @@ ul {
   color: var(--accent);
   font-size: 1.8rem;
   line-height: 1;
+}
+
+.summary-card strong b {
+  font: inherit;
 }
 
 .cleaner-boundary {
@@ -1822,6 +1890,11 @@ ul {
 
   .cleaner-problem-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cleaner-steps,
+  .cleaner-comparison-grid {
+    grid-template-columns: 1fr;
   }
 
   .cleaner-summary-grid {

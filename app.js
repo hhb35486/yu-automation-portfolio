@@ -334,12 +334,12 @@ if (excelCsvCleanerDemo) {
   const summaryNormalizedHeaders = document.querySelector('#summary-normalized-headers');
   const summaryDuplicateRows = document.querySelector('#summary-duplicate-rows');
 
-  const cleanerSampleCsv = `department, report item, amount, status
-Sales , Monthly Leads , 120 , Done
-Sales, Monthly Leads, 120, Done
-Ops,  Inventory Count , 58, Pending
+  const cleanerSampleCsv = `部門,項目,數量,狀態
+業務部 , 本月名單 , 120 , 完成
+業務部,本月名單,120,完成
+行政部,  庫存盤點, 58,待確認
 , , ,
-Marketing, Campaign List, 32, Done`;
+行銷部,活動名單 , 32 , 完成`;
 
   let cleanedCsvOutput = '';
 
@@ -399,6 +399,18 @@ Marketing, Campaign List, 32, Done`;
   };
 
   const normalizeHeader = (header, index) => {
+    const trimmedHeader = header.trim();
+    const knownHeaders = {
+      '部門': '部門',
+      '項目': '項目',
+      '數量': '數量',
+      '狀態': '狀態'
+    };
+
+    if (knownHeaders[trimmedHeader]) {
+      return knownHeaders[trimmedHeader];
+    }
+
     const normalized = header
       .trim()
       .toLowerCase()
@@ -418,7 +430,30 @@ Marketing, Campaign List, 32, Done`;
     ...rows.map(row => row.map(toCsvValue).join(','))
   ].join('\n');
 
-  const renderTable = (target, headers, rows) => {
+  const getRowIssues = (row, seenRows) => {
+    const trimmedRow = row.map(cell => cell.trim());
+
+    if (trimmedRow.every(cell => cell === '')) {
+      return ['空白列'];
+    }
+
+    const issues = [];
+    const rowKey = trimmedRow.join('\u001f');
+
+    if (seenRows.has(rowKey)) {
+      issues.push('重複列');
+    } else {
+      seenRows.add(rowKey);
+    }
+
+    if (row.some(cell => cell !== cell.trim())) {
+      issues.push('前後空白');
+    }
+
+    return issues;
+  };
+
+  const renderTable = (target, headers, rows, options = {}) => {
     if (!target) {
       return;
     }
@@ -428,17 +463,34 @@ Marketing, Campaign List, 32, Done`;
       return;
     }
 
+    const issueSeenRows = new Set();
+    const displayHeaders = options.showIssues ? [...headers, '看得出來的問題'] : headers;
+    const rowMarkup = rows.map(row => {
+      const issues = options.showIssues ? getRowIssues(row, issueSeenRows) : [];
+      const rowClasses = [
+        issues.includes('空白列') ? 'is-empty-row' : '',
+        issues.includes('重複列') ? 'is-duplicate-row' : ''
+      ].filter(Boolean).join(' ');
+      const visibleCells = headers.map((_, index) => {
+        const value = row[index] || '';
+        const cellClass = options.showIssues && value !== value.trim() ? ' class="is-trimmed-cell"' : '';
+
+        return `<td${cellClass}>${escapeCleanerHtml(value)}</td>`;
+      }).join('');
+      const issueCell = options.showIssues
+        ? `<td>${issues.map(issue => `<span class="issue-chip">${escapeCleanerHtml(issue)}</span>`).join('') || 'OK'}</td>`
+        : '';
+
+      return `<tr${rowClasses ? ` class="${rowClasses}"` : ''}>${visibleCells}${issueCell}</tr>`;
+    }).join('');
+
     target.innerHTML = `
       <table class="cleaner-table">
         <thead>
-          <tr>${headers.map(header => `<th>${escapeCleanerHtml(header)}</th>`).join('')}</tr>
+          <tr>${displayHeaders.map(header => `<th>${escapeCleanerHtml(header)}</th>`).join('')}</tr>
         </thead>
         <tbody>
-          ${rows.map(row => `
-            <tr>
-              ${headers.map((_, index) => `<td>${escapeCleanerHtml(row[index] || '')}</td>`).join('')}
-            </tr>
-          `).join('')}
+          ${rowMarkup}
         </tbody>
       </table>
     `;
@@ -447,9 +499,7 @@ Marketing, Campaign List, 32, Done`;
   const cleanCsv = (csvText) => {
     const parsed = parseCsv(csvText);
     const normalizedHeaders = parsed.headers.map(normalizeHeader);
-    const normalizedHeaderCount = parsed.headers.reduce((count, header, index) => (
-      header !== normalizedHeaders[index] ? count + 1 : count
-    ), 0);
+    const normalizedHeaderCount = normalizedHeaders.length;
     const seenRows = new Set();
     const cleanedRows = [];
     let removedEmptyRows = 0;
@@ -520,7 +570,7 @@ Marketing, Campaign List, 32, Done`;
     }
   };
 
-  const loadCleanerSample = (message = '已載入範例 CSV，並完成本機清理。') => {
+  const loadCleanerSample = (message = '已整理範例表格。下方可以直接比較 Before / After。') => {
     const cleaned = cleanCsv(cleanerSampleCsv);
     cleanedCsvOutput = toCsv(cleaned.headers, cleaned.rows);
 
@@ -528,7 +578,7 @@ Marketing, Campaign List, 32, Done`;
       sampleCsvSource.textContent = cleanerSampleCsv;
     }
 
-    renderTable(beforeTable, cleaned.originalHeaders, cleaned.originalRows);
+    renderTable(beforeTable, cleaned.originalHeaders, cleaned.originalRows, { showIssues: true });
     renderTable(afterTable, cleaned.headers, cleaned.rows);
     updateSummary(cleaned.summary, cleaned.rows);
 
@@ -558,11 +608,11 @@ Marketing, Campaign List, 32, Done`;
       }
 
       if (statusMessage) {
-        statusMessage.textContent = '已複製清理後 CSV。仍請人工確認內容。';
+        statusMessage.textContent = '已複製整理後 CSV，貼到報告前仍請人工確認。';
       }
     } catch (error) {
       if (statusMessage) {
-        statusMessage.textContent = '無法自動複製，請直接選取 After table 或下載 CSV。';
+        statusMessage.textContent = '無法自動複製，請直接選取整理後表格或下載 CSV。';
       }
     }
   };
@@ -583,7 +633,7 @@ Marketing, Campaign List, 32, Done`;
     URL.revokeObjectURL(url);
 
     if (statusMessage) {
-      statusMessage.textContent = '已下載範例清理結果。這不是正式資料處理輸出。';
+      statusMessage.textContent = '已下載整理後範例 CSV。這不是正式資料處理輸出。';
     }
   };
 
@@ -596,7 +646,6 @@ Marketing, Campaign List, 32, Done`;
   if (loadSampleButton) {
     loadSampleButton.addEventListener('click', () => {
       loadCleanerSample();
-      setCleanerView('summary');
     });
   }
 
@@ -608,7 +657,7 @@ Marketing, Campaign List, 32, Done`;
     downloadCleanedButton.addEventListener('click', downloadCleanedCsv);
   }
 
-  loadCleanerSample('範例 CSV 已載入。所有處理都在本頁面內完成。');
+  loadCleanerSample('範例表格已整理：空白列移除，重複列排除，前後空白已修掉。');
 }
 
 // PDF extractor demo

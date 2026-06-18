@@ -62,6 +62,12 @@ If there is no inquiry and no clearly described pain within 14 days:
 - Do not run ads
 - Return to the owned asset matrix and review the PDF extractor backup
 
+If someone says the demo is hard to understand:
+
+- Fix the explanation and before / after presentation first
+- Do not add features just to compensate for unclear messaging
+- Keep the sample simple enough to understand in a few seconds
+
 If someone asks to process sensitive data:
 
 - Do not accept real data

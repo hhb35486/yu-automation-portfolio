@@ -54,3 +54,15 @@ It does not use real people, real accounts, real orders, company internal data, 
 - Copy / download clicks
 - Contact clicks
 - User inquiry
+
+## P7 Clarity Fix
+
+After a first real viewing, the feedback was that the demo was not intuitive enough. If the owner could not understand it quickly, a new visitor would probably struggle too.
+
+P7 changes the demo into a three-second before / after explanation:
+
+- Original table is messy
+- Click one clear button
+- See a cleaner report-ready table
+
+This phase does not add production features, upload support, API calls, LLM calls, analytics, SaaS behavior, or payment flow. It still uses synthetic sample data only and does not process real files.
